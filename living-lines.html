@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gülpembe Çolak — Living Lines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5F0EA;
+      --rose: #C41E3A;
+      --ink: #1A1814;
+      --ink-mid: #4A3F36;
+      --ink-light: #8B7B6E;
+      --panel-bg: rgba(248,244,238,0.97);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'Barlow Condensed', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Paper grain texture overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(26,24,20,0.008) 2px,
+          rgba(26,24,20,0.008) 3px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 4px,
+          rgba(26,24,20,0.005) 4px,
+          rgba(26,24,20,0.005) 5px
+        );
+    }
+
+    /* ── Custom cursor ── */
+    .cursor-dot {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rose);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+      mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 0.5px solid var(--rose);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s cubic-bezier(0.4,0,0.2,1), height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+      opacity: 0.4;
+    }
+    .cursor-ring.big { width: 60px; height: 60px; opacity: 0.2; }
+    .cursor-dot.hidden { opacity: 0; }
+
+    /* ── Floating name – fixed bottom left ── */
+    .floating-name {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 2.5rem;
+      z-index: 200;
+    }
+    .floating-name .name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      display: block;
+    }
+    .floating-name .role {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: block;
+      margin-top: 3px;
+    }
+
+    /* ── Top right nav ── */
+    .top-nav {
+      position: fixed;
+      top: 2rem;
+      right: 2.5rem;
+      z-index: 200;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .top-nav a {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .top-nav a:hover { color: var(--rose); }
+
+    /* ── Hero ── */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .rose-stage {
+      position: relative;
+      width: 340px;
+      height: 640px;
+    }
+
+    #rose-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* SVG line styles */
+    .draw-path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .stem-path  { stroke: var(--ink); stroke-width: 4.5; }
+    .leaf-path  { stroke: var(--ink); stroke-width: 4; }
+    .vein-path  { stroke: var(--ink); stroke-width: 1.2; opacity: 0.35; }
+    .bud-path   { stroke: var(--rose); stroke-width: 4.5; }
+
+    /* Invisible fat hit areas for leaves */
+    .hit-zone {
+      fill: transparent;
+      stroke: transparent;
+      stroke-width: 22;
+      cursor: pointer;
+    }
+
+    /* Leaf hover glow */
+    .leaf-group .leaf-path { transition: stroke-width 0.3s ease, opacity 0.3s ease; }
+    .leaf-group:hover .leaf-path { stroke-width: 6; }
+
+    /* Bud hover */
+    .bud-group .bud-path { transition: stroke-width 0.35s ease; }
+    .bud-group:hover .bud-path { stroke-width: 6; }
+
+    /* ── Leaf labels ── */
+    .leaf-label {
+      position: absolute;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .leaf-label .lcat { color: var(--rose); font-size: 8px; letter-spacing: 0.18em; }
+    .leaf-label .ltitle { font-size: 11px; font-weight: 500; }
+
+    .leaf-label.ll-left {
+      left: -8px;
+      top: 67%;
+      transform: translateX(-16px);
+      align-items: flex-end;
+      text-align: right;
+    }
+    .leaf-label.ll-right {
+      right: -8px;
+      top: 52%;
+      transform: translateX(16px);
+      align-items: flex-start;
+    }
+    .leaf-label.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ── Ghost images ── */
+    .ghost-set {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .ghost-set.gl { left: -168px; top: 58%; }
+    .ghost-set.gr { right: -168px; top: 46%; }
+    .ghost-set.visible { opacity: 1; }
+
+    .ghost-box {
+      background: var(--ink);
+      border-radius: 1px;
+    }
+    .ghost-box:nth-child(1) { width: 130px; height: 84px; opacity: 0.07; }
+    .ghost-box:nth-child(2) { width: 90px;  height: 56px; opacity: 0.04; }
+
+    /* ── About panel ── */
+    .about-panel {
+      position: absolute;
+      top: 2%;
+      right: -316px;
+      width: 290px;
+      background: var(--panel-bg);
+      border-left: 0.5px solid rgba(26,24,20,0.12);
+      padding: 2rem 1.75rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.55s ease, right 0.55s cubic-bezier(0.4,0,0.2,1);
+      z-index: 10;
+    }
+    .about-panel.open {
+      opacity: 1;
+      right: -300px;
+      pointer-events: all;
+    }
+
+    .ap-overline {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .ap-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .ap-bio {
+      font-size: 11.5px;
+      letter-spacing: 0.03em;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      margin-bottom: 1.25rem;
+    }
+    .ap-divider {
+      width: 24px;
+      height: 0.5px;
+      background: var(--rose);
+      margin-bottom: 1.25rem;
+    }
+    .ap-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ap-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .ap-row .ap-key {
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .ap-row .ap-val {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+    }
+    .ap-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 1.25rem;
+    }
+    .ap-tag {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border: 0.5px solid rgba(26,24,20,0.2);
+      color: var(--ink-mid);
+    }
+
+    /* ── Scroll indicator ── */
+    .scroll-cue {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 3.8s forwards;
+    }
+    .scroll-cue .sc-line {
+      width: 0.5px;
+      height: 48px;
+      background: var(--ink-light);
+      animation: drip 2.2s ease-in-out 3.8s infinite;
+      transform-origin: top;
+    }
+    .scroll-cue span {
+      font-size: 8px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    @keyframes drip {
+      0%   { transform: scaleY(0); opacity: 1; }
+      60%  { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(1); opacity: 0; }
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; }
+    }
+
+    /* ── Works section ── */
+    .works-section {
+      padding: 9rem 5rem 6rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+    }
+    .sec-head h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .sec-head .sec-count {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 6px;
+    }
+
+    /* Filter row */
+    .filter-row {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .f-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      background: none;
+      border: none;
+      cursor: none;
+      padding: 0 0 6px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .f-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0.5px;
+      background: var(--rose);
+      transition: width 0.3s ease;
+    }
+    .f-btn.active,
+    .f-btn:hover { color: var(--ink); }
+    .f-btn.active::after,
+    .f-btn:hover::after { width: 100%; }
+
+    /* Grid */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .work-card {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: none;
+      background: var(--ink-mid);
+    }
+
+    .wc-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      transition: opacity 0.5s ease;
+    }
+
+    /* Different base opacities for visual variety */
+    .work-card:nth-child(1) .wc-bg { opacity: 0.06; }
+    .work-card:nth-child(2) .wc-bg { opacity: 0.10; }
+    .work-card:nth-child(3) .wc-bg { opacity: 0.05; }
+    .work-card:nth-child(4) .wc-bg { opacity: 0.09; }
+    .work-card:nth-child(5) .wc-bg { opacity: 0.07; }
+    .work-card:nth-child(6) .wc-bg { opacity: 0.11; }
+
+    .wc-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      background: linear-gradient(to top, rgba(245,240,234,0.92) 0%, transparent 60%);
+      transition: opacity 0.4s ease;
+    }
+
+    .work-card:hover .wc-overlay { opacity: 1; }
+    .work-card:hover .wc-bg { opacity: 0.04 !important; }
+
+    .wc-cat {
+      font-size: 8px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 5px;
+    }
+    .wc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .wc-year {
+      font-size: 9px;
+      color: var(--ink-light);
+      margin-top: 3px;
+    }
+
+    /* ── Contact ── */
+    .contact-section {
+      padding: 7rem 5rem 5rem;
+      border-top: 0.5px solid rgba(26,24,20,0.1);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .ct-left {}
+    .ct-left .ct-pre {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .ct-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 62px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+    .ct-left .ct-email {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--ink-mid);
+      text-decoration: none;
+      border-bottom: 0.5px solid currentColor;
+      padding-bottom: 3px;
+      transition: color 0.2s;
+    }
+    .ct-left .ct-email:hover { color: var(--rose); }
+    .ct-left .ct-phone {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--ink-light);
+      margin-top: 6px;
+    }
+
+    .ct-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: flex-end;
+    }
+    .social-row {
+      display: flex;
+      gap: 1.75rem;
+    }
+    .social-row a {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .social-row a:hover { color: var(--rose); }
+
+    /* Small rose mark in footer */
+    .footer-mark svg {
+      width: 28px;
+      height: 42px;
+      opacity: 0.18;
+    }
+
+    .copyright {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      font-style: italic;
+      color: rgba(26,24,20,0.28);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      body { cursor: auto; }
+      .cursor-dot, .cursor-ring { display: none; }
+      .floating-name { bottom: 1.5rem; left: 1.5rem; }
+      .top-nav { top: 1.5rem; right: 1.5rem; }
+      .works-section { padding: 6rem 1.5rem 4rem; }
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-section {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 5rem 1.5rem 3rem;
+        align-items: flex-start;
+      }
+      .ct-right { text-align: left; align-items: flex-start; }
+      .about-panel {
+        right: auto !important;
+        left: 50%;
+        transform: translateX(-50%);
+        top: auto;
+        bottom: -340px;
+        width: 280px;
+      }
+      .about-panel.open {
+        bottom: -320px;
+        right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursors -->
+  <div class="cursor-dot" id="cd"></div>
+  <div class="cursor-ring" id="cr"></div>
+
+  <!-- Floating name -->
+  <header class="floating-name">
+    <span class="name">Gülpembe Çolak</span>
+    <span class="role">Graphic &amp; Digital Design · Antwerp</span>
+  </header>
+
+  <!-- Top nav -->
+  <nav class="top-nav">
+    <a href="#works">Works</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="rose-stage" id="stage">
+
+      <!-- ───── THE ROSE SVG ───── -->
+      <svg id="rose-svg" viewBox="0 0 340 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- STEM -->
+        <path id="p-stem" class="draw-path stem-path"
+          d="M170,610 C168,555 166,500 168,450 C170,400 169,355 170,315 C170,285 170,265 170,245"/>
+
+        <!-- Thorn -->
+        <path id="p-thorn" class="draw-path"
+          stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"
+          d="M169,540 L152,524"/>
+
+        <!-- ── LEFT LEAF ── -->
+        <g class="leaf-group" id="lgrp-left" style="cursor:pointer;">
+          <path id="p-leaf-l" class="draw-path leaf-path"
+            d="M167,474 C140,458 108,452 82,451 C56,450 44,464 56,479 C68,494 100,496 128,487 C151,480 165,470 167,461"/>
+          <path id="p-vein-l" class="draw-path vein-path"
+            d="M84,452 C112,470 142,473 167,466"/>
+          <!-- fat hit -->
+          <path class="hit-zone"
+            d="M167,474 C140,458 108,452 82,451 C56,450 44,464 56,479 C68,494 100,496 128,487 C151,480 165,470 167,461"/>
+        </g>
+
+        <!-- ── RIGHT LEAF ── -->
+        <g class="leaf-group" id="lgrp-right" style="cursor:pointer;">
+          <path id="p-leaf-r" class="draw-path leaf-path"
+            d="M173,395 C196,380 224,374 250,373 C276,372 289,385 280,399 C271,413 241,416 215,408 C192,401 174,390 173,381"/>
+          <path id="p-vein-r" class="draw-path vein-path"
+            d="M249,373 C226,391 200,396 173,388"/>
+          <!-- fat hit -->
+          <path class="hit-zone"
+            d="M173,395 C196,380 224,374 250,373 C276,372 289,385 280,399 C271,413 241,416 215,408 C192,401 174,390 173,381"/>
+        </g>
+
+        <!-- ── RED BUD ── -->
+        <g class="bud-group" id="bud-grp" style="cursor:pointer;">
+          <!-- Outer left wing / petal -->
+          <path id="p-bud-1" class="draw-path bud-path"
+            d="M170,245 C138,230 110,206 102,172 C94,138 112,114 138,111 C158,109 170,126 168,156"/>
+          <!-- Left inner loop -->
+          <path id="p-bud-2" class="draw-path bud-path"
+            d="M168,156 C163,136 161,118 165,108 C169,119 171,136 170,158"/>
+          <!-- Right outer petal -->
+          <path id="p-bud-3" class="draw-path bud-path"
+            d="M170,245 C200,230 218,205 218,170 C218,136 200,112 178,110 C168,108 165,116 164,136"/>
+          <!-- Top left flourish / scroll -->
+          <path id="p-bud-4" class="draw-path bud-path"
+            d="M138,111 C126,98 124,82 136,76 C147,71 160,78 162,93"/>
+          <!-- Top right arch -->
+          <path id="p-bud-5" class="draw-path bud-path"
+            d="M178,110 C190,98 196,80 188,70 C181,61 170,62 165,72"/>
+          <!-- Connecting centre curl -->
+          <path id="p-bud-6" class="draw-path bud-path"
+            d="M162,93 C160,83 162,74 165,72"/>
+          <!-- Sepal base left -->
+          <path id="p-sep-l" class="draw-path bud-path"
+            stroke="var(--ink)" stroke-width="3"
+            d="M170,245 C158,238 148,232 142,226"/>
+          <!-- Sepal base right -->
+          <path id="p-sep-r" class="draw-path bud-path"
+            stroke="var(--ink)" stroke-width="3"
+            d="M170,245 C180,238 190,233 196,227"/>
+        </g>
+
+      </svg>
+
+      <!-- Leaf labels -->
+      <div class="leaf-label ll-left" id="lbl-left">
+        <span class="lcat">Branding &amp; Print</span>
+        <span class="ltitle">Works</span>
+      </div>
+      <div class="leaf-label ll-right" id="lbl-right">
+        <span class="lcat">Digital &amp; Motion</span>
+        <span class="ltitle">Works</span>
+      </div>
+
+      <!-- Ghost images -->
+      <div class="ghost-set gl" id="ghost-l">
+        <div class="ghost-box"></div>
+        <div class="ghost-box"></div>
+      </div>
+      <div class="ghost-set gr" id="ghost-r">
+        <div class="ghost-box"></div>
+        <div class="ghost-box"></div>
+      </div>
+
+      <!-- About panel (bud hover) -->
+      <div class="about-panel" id="about-panel">
+        <span class="ap-overline">About me</span>
+        <h2 class="ap-name">Gülpembe<br>Çolak</h2>
+        <p class="ap-bio">Graphic Design & Digital Media student at AP Hogeschool, Antwerp. I design with intention across print, brand, digital and motion.</p>
+        <div class="ap-divider"></div>
+        <div class="ap-details">
+          <div class="ap-row">
+            <span class="ap-key">Based in</span>
+            <span class="ap-val">Antwerp, BE</span>
+          </div>
+          <div class="ap-row">
+            <span class="ap-key">Study</span>
+            <span class="ap-val">AP Hogeschool · 2023–2027</span>
+          </div>
+          <div class="ap-row">
+            <span class="ap-key">Languages</span>
+            <span class="ap-val">EN · NL · TR</span>
+          </div>
+          <div class="ap-row">
+            <span class="ap-key">Tools</span>
+            <span class="ap-val">AI · PS · ID · AE · Figma</span>
+          </div>
+        </div>
+        <div class="ap-tags">
+          <span class="ap-tag">Branding</span>
+          <span class="ap-tag">Print</span>
+          <span class="ap-tag">Motion</span>
+          <span class="ap-tag">UI/UX</span>
+          <span class="ap-tag">Photography</span>
+        </div>
+      </div>
+
+    </div><!-- /rose-stage -->
+
+    <!-- Scroll cue -->
+    <div class="scroll-cue">
+      <div class="sc-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ WORKS ══════════════════════════════ -->
+  <section class="works-section" id="works">
+    <div class="sec-head">
+      <h2>Selected<br>Work</h2>
+      <span class="sec-count">06 projects · 2023–2025</span>
+    </div>
+
+    <div class="filter-row">
+      <button class="f-btn active" data-filter="all">All</button>
+      <button class="f-btn" data-filter="branding">Branding</button>
+      <button class="f-btn" data-filter="print">Print</button>
+      <button class="f-btn" data-filter="illustration">Illustration</button>
+      <button class="f-btn" data-filter="motion">Motion</button>
+    </div>
+
+    <div class="works-grid" id="works-grid">
+
+      <div class="work-card" data-cat="branding">
+        <div class="wc-bg"></div>
+        <div class="wc-overlay">
+          <span class="wc-cat">Branding</span>
+          <h3 class="wc-title">Flora Collective<br>Identity System</h3>
+          <span class="wc-year">2025</span>
+        </div>
+      </div>
+
+      <div class="work-card" data-cat="print">
+        <div class="wc-bg"></div>
+        <div class="wc-overlay">
+          <span class="wc-cat">Print</span>
+          <h3 class="wc-title">Seasonal Poster<br>Series</h3>
+          <span class="wc-year">2025</span>
+        </div>
+      </div>
+
+      <div class="work-card" data-cat="illustration">
+        <div class="wc-bg"></div>
+        <div class="wc-overlay">
+          <span class="wc-cat">Illustration</span>
+          <h3 class="wc-title">Botanical<br>Line Studies</h3>
+          <span class="wc-year">2024</span>
+        </div>
+      </div>
+
+      <div class="work-card" data-cat="branding">
+        <div class="wc-bg"></div>
+        <div class="wc-overlay">
+          <span class="wc-cat">Branding</span>
+          <h3 class="wc-title">Atelier Brand<br>Identity</h3>
+          <span class="wc-year">2024</span>
+        </div>
+      </div>
+
+      <div class="work-card" data-cat="motion">
+        <div class="wc-bg"></div>
+        <div class="wc-overlay">
+          <span class="wc-cat">Motion</span>
+          <h3 class="wc-title">Social Content<br>Campaign</h3>
+          <span class="wc-year">2025</span>
+        </div>
+      </div>
+
+      <div class="work-card" data-cat="print">
+        <div class="wc-bg"></div>
+        <div class="wc-overlay">
+          <span class="wc-cat">Print &amp; Event</span>
+          <h3 class="wc-title">MC TV Campaign<br>Design</h3>
+          <span class="wc-year">2024</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ CONTACT ══════════════════════════════ -->
+  <footer class="contact-section" id="contact">
+    <div class="ct-left">
+      <span class="ct-pre">Get in touch</span>
+      <h2>Let's<br>talk.</h2>
+      <a class="ct-email" href="mailto:gulpembecolak@gmail.com">gulpembecolak@gmail.com</a>
+      <span class="ct-phone">+32 494 71 89 97</span>
+    </div>
+    <div class="ct-right">
+      <!-- Small rose mark -->
+      <div class="footer-mark">
+        <svg viewBox="0 0 28 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14,42 C13,36 12,30 13,24 C14,18 14,14 14,10" stroke="#1A1814" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14,10 C10,6 8,2 10,0 C12,-1 14,2 14,6" stroke="#C41E3A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14,10 C18,6 20,2 18,0 C16,-1 14,2 14,6" stroke="#C41E3A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13,28 C8,25 4,22 5,19 C6,16 10,17 13,20" stroke="#1A1814" stroke-width="2" stroke-linecap="round"/>
+          <path d="M15,22 C20,19 24,18 24,21 C24,24 20,25 15,23" stroke="#1A1814" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="social-row">
+        <a href="https://www.instagram.com" target="_blank">Instagram</a>
+        <a href="https://www.linkedin.com/in/gulpembe-colak" target="_blank">LinkedIn</a>
+        <a href="https://gulpembecolak1.wixsite.com/gulpish" target="_blank">Portfolio</a>
+      </div>
+      <p class="copyright">© 2025 Gülpembe Çolak</p>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════ SCRIPTS ══════════════════════════════ -->
+  <script>
+    // ── Custom cursor ──
+    const cd = document.getElementById('cd');
+    const cr = document.getElementById('cr');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cd.style.left = mx + 'px';
+      cd.style.top  = my + 'px';
+    });
+
+    // Smooth ring follow
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      cr.style.left = rx + 'px';
+      cr.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    // Hover expand
+    document.querySelectorAll('a, button, .leaf-group, .bud-group, .work-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cr.classList.add('big'));
+      el.addEventListener('mouseleave', () => cr.classList.remove('big'));
+    });
+
+    // ── Draw-on animation ──
+    const drawSeq = [
+      { id: 'p-stem',  delay: 100,  dur: 1800 },
+      { id: 'p-thorn', delay: 600,  dur: 350  },
+      { id: 'p-leaf-l',delay: 900,  dur: 700  },
+      { id: 'p-vein-l',delay: 1400, dur: 500  },
+      { id: 'p-leaf-r',delay: 1200, dur: 700  },
+      { id: 'p-vein-r',delay: 1700, dur: 500  },
+      { id: 'p-bud-1', delay: 1800, dur: 700  },
+      { id: 'p-bud-2', delay: 2100, dur: 450  },
+      { id: 'p-bud-3', delay: 2200, dur: 700  },
+      { id: 'p-bud-4', delay: 2400, dur: 400  },
+      { id: 'p-bud-5', delay: 2500, dur: 400  },
+      { id: 'p-bud-6', delay: 2700, dur: 300  },
+      { id: 'p-sep-l', delay: 2800, dur: 350  },
+      { id: 'p-sep-r', delay: 2850, dur: 350  },
+    ];
+
+    window.addEventListener('load', () => {
+      drawSeq.forEach(({ id, delay, dur }) => {
+        const path = document.getElementById(id);
+        if (!path) return;
+        const len = path.getTotalLength ? path.getTotalLength() : 600;
+        path.style.strokeDasharray  = len;
+        path.style.strokeDashoffset = len;
+        path.style.transition = 'none';
+        setTimeout(() => {
+          path.style.transition = `stroke-dashoffset ${dur}ms cubic-bezier(0.4,0,0.2,1)`;
+          path.style.strokeDashoffset = '0';
+        }, delay);
+      });
+    });
+
+    // ── Leaf interactions ──
+    const lGrpL  = document.getElementById('lgrp-left');
+    const lGrpR  = document.getElementById('lgrp-right');
+    const lblL   = document.getElementById('lbl-left');
+    const lblR   = document.getElementById('lbl-right');
+    const ghostL = document.getElementById('ghost-l');
+    const ghostR = document.getElementById('ghost-r');
+
+    lGrpL.addEventListener('mouseenter', () => {
+      lblL.classList.add('visible');
+      ghostL.classList.add('visible');
+    });
+    lGrpL.addEventListener('mouseleave', () => {
+      lblL.classList.remove('visible');
+      ghostL.classList.remove('visible');
+    });
+    lGrpR.addEventListener('mouseenter', () => {
+      lblR.classList.add('visible');
+      ghostR.classList.add('visible');
+    });
+    lGrpR.addEventListener('mouseleave', () => {
+      lblR.classList.remove('visible');
+      ghostR.classList.remove('visible');
+    });
+
+    // ── Bud / About panel ──
+    const budGrp    = document.getElementById('bud-grp');
+    const aboutPanel = document.getElementById('about-panel');
+    let budHover = false, panelHover = false;
+
+    function updatePanel() {
+      if (budHover || panelHover) {
+        aboutPanel.classList.add('open');
+      } else {
+        aboutPanel.classList.remove('open');
+      }
+    }
+
+    budGrp.addEventListener('mouseenter', () => { budHover = true; updatePanel(); });
+    budGrp.addEventListener('mouseleave', () => {
+      budHover = false;
+      setTimeout(updatePanel, 120);
+    });
+    aboutPanel.addEventListener('mouseenter', () => { panelHover = true; updatePanel(); });
+    aboutPanel.addEventListener('mouseleave', () => { panelHover = false; updatePanel(); });
+
+    // ── Filter ──
+    document.querySelectorAll('.f-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        document.querySelectorAll('.work-card').forEach(card => {
+          if (filter === 'all' || card.dataset.cat === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ── Subtle parallax on rose ──
+    const stage = document.getElementById('stage');
+    window.addEventListener('scroll', () => {
+      const sy = window.scrollY;
+      if (sy < window.innerHeight) {
+        stage.style.transform = `translateY(${sy * 0.08}px)`;
+      }
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
