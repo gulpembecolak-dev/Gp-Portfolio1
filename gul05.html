@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gülpembe Çolak — Graphic Designer</title>
+<meta name="description" content="Gülpembe Çolak — Graphic Design & Digital Media portfolio. Branding, print, motion, illustration. Based in Antwerp.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-655WEKJH8K"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-655WEKJH8K');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F5F0EA;--rose:#a62425;--ink:#1A1814;--ink-m:#4A3F36;--ink-50:#8B7B6E;--ink-30:#B8AD9F;--ink-10:rgba(26,24,20,.08);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Barlow Condensed','Helvetica Neue',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);--max:1200px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(26,24,20,.006) 2px,rgba(26,24,20,.006) 3px)}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+
+/* Cursor */
+.cd,.cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cd{width:6px;height:6px;background:var(--rose);mix-blend-mode:multiply;transition:width .2s var(--ease),height .2s var(--ease)}
+.cr{width:32px;height:32px;border:.5px solid var(--rose);opacity:.3;transition:width .3s var(--ease),height .3s var(--ease),opacity .2s}
+body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:.15}
+@media(hover:none),(max-width:900px){.cd,.cr{display:none}body{cursor:auto}}
+
+/* Scroll reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* Label */
+.label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-50);display:block;margin-bottom:1rem}
+.label--r{color:var(--rose)}
+
+/* ─── NAV — centered ─── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:center;align-items:center;gap:3rem;padding:1.8rem 2rem;transition:background .3s,box-shadow .3s}
+.nav.scrolled{background:rgba(245,240,234,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--ink-10)}
+.nav a{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-50);text-decoration:none;padding:4px 0;position:relative;transition:color .2s}
+.nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:.5px;background:var(--rose);transition:width .3s var(--ease)}
+.nav a:hover{color:var(--ink)}.nav a:hover::after{width:100%}
+
+/* ─── Sidebar name ─── */
+.side{position:fixed;bottom:2.5rem;left:1.8rem;z-index:200;transform:rotate(-90deg);transform-origin:left bottom;white-space:nowrap;display:flex;align-items:baseline;gap:1rem}
+.side span:first-child{font-family:var(--serif);font-size:13px;font-weight:400;letter-spacing:.04em;color:var(--ink)}
+.side span:last-child{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50)}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem 3rem;gap:0;position:relative}
+.hero__rose{width:clamp(200px,28vw,320px)}
+.hero__rose svg{width:100%;height:auto;display:block;overflow:visible}
+/* Rose paths: all start invisible, stroke draws on */
+#leaf_left,#leaf_right,#bud{fill-opacity:0;stroke-linecap:round;stroke-linejoin:round}
+#leaf_left,#leaf_right{stroke:#191612;stroke-width:1.8}
+#bud{stroke:#a62425;stroke-width:1.5}
+
+.hero__txt{text-align:center;margin-top:clamp(2rem,4vw,3.5rem);opacity:0;transform:translateY(20px);transition:opacity .8s ease .2s,transform .8s ease .2s}
+.hero__txt.in{opacity:1;transform:none}
+.hero__txt h1{font-family:var(--serif);font-size:clamp(44px,7.5vw,96px);font-weight:300;line-height:.92;letter-spacing:-.01em}
+.hero__txt h1 em{font-style:italic;color:var(--rose);font-weight:300}
+.hero__sub{font-family:var(--sans);font-size:clamp(11px,1.2vw,13px);font-weight:400;letter-spacing:.35em;text-transform:uppercase;color:var(--ink-50);margin-top:1.2rem}
+.hero__scroll{position:absolute;bottom:2rem;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fi .8s ease 5s forwards}
+.hero__scroll span{font-family:var(--sans);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-30)}
+.hero__sl{width:1px;height:36px;background:var(--ink-30);transform-origin:top;animation:drip 2.5s ease-in-out 5.2s infinite}
+@keyframes fi{to{opacity:1}}
+@keyframes drip{0%{transform:scaleY(0);opacity:.7}50%{transform:scaleY(1);opacity:.7}100%{transform:scaleY(1);opacity:0}}
+
+/* ═══ ABOUT ═══ */
+.about{padding:clamp(60px,10vw,140px) 2rem;max-width:var(--max);margin:0 auto;border-top:.5px solid var(--ink-10)}
+.about__top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:start;margin-bottom:clamp(3rem,5vw,5rem)}
+.about__photo{position:relative;overflow:hidden;aspect-ratio:3/4}
+.about__photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.02)}
+.about__photo::after{content:'';position:absolute;inset:0;border:.5px solid var(--ink-10)}
+.about__text h2{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:300;font-style:italic;line-height:1.1;margin-bottom:1.5rem}
+.about__text h2 span{color:var(--rose);font-style:normal}
+.about__bio{font-family:var(--serif);font-size:clamp(15px,1.5vw,18px);font-weight:300;line-height:1.8;color:var(--ink-m);margin-bottom:2rem}
+.about__grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 2.5rem}
+.about__grid dt{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-50);margin-bottom:4px}
+.about__grid dd{font-family:var(--serif);font-size:14px;font-weight:300;line-height:1.6;color:var(--ink)}
+.about__tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2rem}
+.about__tags span{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;border:.5px solid var(--ink-10);color:var(--ink-50);transition:border-color .2s,color .2s}
+.about__tags span:hover{border-color:var(--rose);color:var(--rose)}
+
+/* ═══ WORK ═══ */
+.work{padding:clamp(60px,10vw,140px) 0;border-top:.5px solid var(--ink-10)}
+.work__head{max-width:var(--max);margin:0 auto;padding:0 2rem;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:clamp(2rem,4vw,4rem)}
+.work__head h2{font-family:var(--serif);font-size:clamp(32px,4.5vw,56px);font-weight:300;font-style:italic;line-height:1}
+.work__n{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);margin-bottom:4px}
+.work__list{max-width:var(--max);margin:0 auto;padding:0 2rem}
+
+/* Project row */
+.proj{display:grid;grid-template-columns:1.15fr 1fr;gap:0 clamp(2rem,4vw,4rem);padding:clamp(2.5rem,4vw,4rem) 0;border-top:.5px solid var(--ink-10);align-items:start;cursor:pointer;transition:opacity .4s}
+.proj:nth-child(even){grid-template-columns:1fr 1.15fr}
+.proj:nth-child(even) .proj__img{order:2}
+.proj:nth-child(even) .proj__info{order:1}
+.proj__img{position:relative;overflow:hidden;border-radius:0}
+.proj__img img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .6s var(--ease),filter .4s}
+.proj:hover .proj__img img{transform:scale(1.03);filter:brightness(1.04)}
+.proj__num{font-family:var(--serif);font-size:12px;font-weight:300;color:var(--ink-30);font-style:italic;margin-bottom:.75rem}
+.proj__cat{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--rose);margin-bottom:.6rem}
+.proj__title{font-family:var(--serif);font-size:clamp(22px,2.8vw,36px);font-weight:400;line-height:1.15;color:var(--ink);margin-bottom:.8rem;transition:color .2s}
+.proj:hover .proj__title{color:var(--rose)}
+.proj__desc{font-family:var(--serif);font-size:clamp(13px,1.3vw,15px);font-weight:300;line-height:1.7;color:var(--ink-m);max-width:420px;margin-bottom:1.2rem}
+.proj__meta{display:flex;gap:1.5rem}
+.proj__meta span{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-30)}
+.proj__expand{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);margin-top:1rem;display:flex;align-items:center;gap:.5rem;transition:gap .2s}
+.proj:hover .proj__expand{gap:.8rem}
+.proj__expand::after{content:'→';font-size:13px}
+
+/* Case study inline expand */
+.cs{max-height:0;overflow:hidden;transition:max-height .6s var(--ease),padding .4s;padding:0 0;grid-column:1/-1}
+.cs.open{max-height:2000px;padding:2.5rem 0 1rem}
+.cs__inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem 3rem;font-family:var(--serif)}
+.cs__inner h4{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem;grid-column:1/-1}
+.cs__block{margin-bottom:1.5rem}
+.cs__block dt{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);margin-bottom:6px}
+.cs__block dd{font-family:var(--serif);font-size:14px;font-weight:300;line-height:1.7;color:var(--ink-m)}
+
+/* ═══ CONTACT ═══ */
+.contact{padding:clamp(60px,10vw,120px) 2rem;max-width:var(--max);margin:0 auto;border-top:.5px solid var(--ink-10);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:end}
+.contact__h{display:flex;align-items:center;gap:2rem;margin-bottom:2rem}
+.contact__h h2{font-family:var(--serif);font-size:clamp(48px,7vw,88px);font-weight:300;font-style:italic;line-height:.9}
+.contact__h h2 span{color:var(--rose)}
+.wa{width:56px;height:56px;border-radius:50%;border:.5px solid rgba(166,36,37,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;transition:background .3s,border-color .3s,transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.wa:hover{background:#25D366;border-color:#25D366;transform:scale(1.08);box-shadow:0 4px 20px rgba(37,211,102,.3)}
+.wa svg{width:26px;height:26px}.wa .wb{fill:var(--ink);transition:fill .3s}.wa .wp{fill:var(--cream);transition:fill .3s}
+.wa:hover .wb{fill:#fff}.wa:hover .wp{fill:#25D366}
+.contact__links{display:flex;flex-direction:column;gap:.5rem}
+.contact__links a{font-family:var(--serif);font-size:clamp(15px,1.5vw,19px);font-weight:300;color:var(--ink-m);text-decoration:none;width:fit-content;transition:color .2s}
+.contact__links a:hover{color:var(--rose)}
+.contact__links .ph{font-family:var(--sans);font-size:12px;letter-spacing:.08em;color:var(--ink-50)}
+.contact__r{display:flex;flex-direction:column;gap:1.5rem;align-items:flex-end}
+.contact__soc{display:flex;gap:2rem}
+.contact__soc a{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);text-decoration:none;transition:color .2s}
+.contact__soc a:hover{color:var(--rose)}
+.contact__copy{font-family:var(--serif);font-size:12px;font-style:italic;color:var(--ink-30)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .side{display:none}
+  .nav{gap:2rem;padding:1.2rem 1.5rem}
+  .hero__rose{width:clamp(180px,50vw,260px)}
+  .about__top{grid-template-columns:1fr}
+  .about__photo{max-width:320px;margin-bottom:1rem}
+  .proj{grid-template-columns:1fr!important}
+  .proj:nth-child(even) .proj__img{order:0}
+  .proj:nth-child(even) .proj__info{order:0}
+  .proj__img img{aspect-ratio:16/9}
+  .cs__inner{grid-template-columns:1fr}
+  .contact{grid-template-columns:1fr;gap:2.5rem}
+  .contact__r{align-items:flex-start}
+}
+@media(max-width:600px){
+  .nav{gap:1.5rem}.nav a{font-size:10px;letter-spacing:.2em}
+  .hero__txt h1{font-size:38px}
+  .about__grid{grid-template-columns:1fr}
+  .contact__h h2{font-size:42px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+  #leaf_left,#leaf_right,#bud{fill-opacity:1!important;stroke-opacity:0!important}
+}
+</style>
+</head>
+<body>
+<div class="cd" id="cd" aria-hidden="true"></div>
+<div class="cr" id="cr" aria-hidden="true"></div>
+
+<div class="side" aria-hidden="true">
+  <span>Gülpembe Çolak</span>
+  <span>Graphic &amp; Digital Design · Antwerp</span>
+</div>
+
+<nav class="nav" id="nav" role="navigation" aria-label="Main">
+  <a href="#about">About</a>
+  <a href="#work">Work</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero" id="hero">
+  <div class="hero__rose" id="rs">
+    <svg viewBox="0 0 277.07 461.17" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hand-drawn rose">
+      <path id="bud" d="M143.42,136.72c-.45-.74-1.03-1.34-1.81-1.38-1.66-.08-1.52,1.95-4.29,2.97-.33-.38-1.3-.58-1.28-1.46.1-3.63,2.46-4.22,5.14-6.41l3.15-1.05c1.33-1.15,6.37-1.95,9.63-3.57,2.24-1.11,4.16-1.95,6.59-2.62,4.46-1.22,8.71-2.76,13.45-3.15,5.93-.49,8.72-3.88,11.04-9.7,1.32-3.32,1.22-7.88.05-11.38-.88-2.62-1.39-5.09-2.4-7.6-2.58-6.37-4.36-13.06-3.24-20.05.39-2.41.89-4.69,1.1-7.18.16-1.83,1.19-3.75.48-5.64-1.38-3.71.32-6.66-3.33-7.04-.98-.1-3.12-.61-3.81.53-1.26,2.07-2.17,4.52-2.84,6.79l-3.46,11.64c-1.67,5.61-4.89,10.65-5.57,16.53l-1.7,14.59c-.21,1.84-.32,3.8-1.48,5.33-3.28,4.32-7.84,6.95-12.65,9.25-1.19.57-1.7,1.12-3.19,1.28-3.29.34-6.48,1.62-9.88,1.68-1.52.02-3.32-.63-4.72-1.18l-6.85-2.69c-2.5-1.74-4.79-5.01-5.88-4.35-1,.61-2.91,1.71-3.43,2.92-.76,4.45-.3,9.54-1.59,13.52-3.14,9.61-7.28,15.82-15.57,21.46-5.54,3.77-8.3,4.8-15.55,4.11-3.92-.37-9.04-.57-10.48-1.71-2.03-1.61-3.67-2.94-5.86-4.24-1.71-1.01-3.23-2.86-4.77-4.19l-4.54-3.92-2.68-3.18c-2.48-1.7-4.43-3.72-6.59-5.76-.73-.69-1.57-.89-2.02-2.01-.48-1.19-2.27-1.52-3.04-2.43l-3.08-3.65c-1.48-1.74-3.41-2.66-5.13-4.08l-15.85-13.06-4.63-4.12c-4.02-3.58-11.08-11.28-10.03-15.83.33-1.45-.35-2.45-.8-3.54-.2-3.71,2.15-8.87,4.6-10.17l4.41-2.34c3.6-1.91,7.8-1.51,11.78-1.31l6.68.35,12.93-.09c.48-3.85,2.23-7.03,5.23-9.28,3.4-2.54,11.79-1.13,17.25-.37.77.11,1.93,1.3,2.62,1.04,2.22-.83,3.76-3.41,6.89-6.05,1.2-1.01,1.9-2.5,3.35-3.44.96-.63,2.34-1.51,2.96-2.49,1.54-2.41,3.41-4.27,4.99-6.57l4.7-6.82c1.87-1.89,3.29-3.8,4.91-5.82l5.49-6.84c1.49-1.86,2.85-3.68,4.55-5.4l9.22-9.32c3.4-3.43,10.67-4.72,15.85-5.74,2.31-.45,4.61-.57,7.08-.45l7.54.39c3.31.17,6.39,1.68,9.38,2.89,3.86,1.57,6.37,4.43,8.25,8.12,1.19,2.35,3.39,4.81,3.13,7.69s-2.37,5.37-3.97,7.65c-3.78,5.37-8.82,9.15-13.9,13.09-4.16,3.23-8.78,5.21-13.35,7.75l-5.1,2.83c-1.18.66-2.3,1.05-3.66,1.52l-6.49,2.25c-6.26,2.17-13.05,1.37-15.71-4.86-1.13-2.64-1.67-5.94-.63-8.73,2.12-5.72,6.14-10.76,11.82-13.05l8.49-3.43c4.12-1.24,8.71-1.76,12.77-.34,3.63,1.27,4.49,6.52,2.37,9.26-.87,1.12-1.59,2.36-2.75,2.87l-9.17,3.99c-.66.29-2.23.29-2.05-.58,2.38-3.12,6.33-3.7,8.13-7.71.42-.95.47-2.25.02-3.11-1.4-2.66-5.92-.94-9.51.86-4.41,2.2-8.78,4.33-11.88,8.37-1.85,2.42-3.8,8.28-1.38,10.44.73.65,1.91,1.07,3.08.84,14.17-2.81,19.89-5.51,30.7-14.64,1.06-.89,2.03-1.39,3.13-2.08l5.63-3.52c3.7-2.32,4.59-3.35,6.96-6.95,2.91-4.42-2.45-11.67-6.06-13.2-3.06-1.3-6.64-1.7-9.83-1.7h-4.47c-5.13-.41-10.6.25-15.33,2.34-3.49,1.54-6.23,4.37-8.69,7.12l-4.88,5.45c-2.74,3.06-4.13,7.13-6.9,10.18-1.19,1.31-2.08,2.35-2.92,3.9-1.6,2.97-4.5,5.06-6.54,7.67-1.3,1.67-3.71,3.97-5.43,5.39l-3.48,2.86c-2.93,2.41-5.26,5.24-8.06,7.81-.75.69-1.94,1.06-2.11,2.25l6.39,3.73c3.17,1.85,6.17,4.03,8.81,6.62,3.3,3.24,5.46,7.23,8.17,10.87l5.94,8.01c1.42,1.91,3.06,3.7,3.9,5.97l3.38,9.2,4.47-2.87c-2.83-7.02-4.23-11.48-2.34-18.81,1.11-4.3,3.81-7.97,5.84-11.88l2.87-5.52c1.83-2.43,3.39-5.06,5.64-7.05l4.83-4.27,4.96-5.34c2.84-2.52,5.65-4.93,9.3-6.19,1.31-.45,3.81-.53,5,.06,1.88.92,3.59,1.33,5.3,2.39,1.1.68,2.76,2.44,3.29,3.71,3.58,8.55-.77,17.53-6.05,24.68l-4.92,6.66c-.89,1.21-1.73,2.18-2.74,3.25-2.74,2.89-5.2,5.83-8.16,8.57-4.24,3.93-7.07,7.43-12.38,11.4-.47.35-.68,1.06-.55,1.52.09.32.49.63.91.95l2.45,1.9c9.06,1.4,16.11,1.57,22.78-5.01,3.32-3.27,4.83-7.45,5.9-11.94l1.97-8.27c.65-5.2.72-10.33,2.33-15.31l2.41-5.1c1.51-3.2,3.19-6.33,4.05-9.78.73-2.95,2.57-4.93,4.45-7.12,1.49-1.74,3.06-2.75,5.52-2.93,3.06-.21,5.34,1.04,6.74,3.73,1.76,3.4,2.67,6.77,2.93,10.66.13,1.85.64,3.67-.18,5.58-.37,5.47-1.32,10.65-1.01,16.1l5.74,13.79c2.91,7.19,4.16,20.39-1.06,25.4l-2.03,1.94c-2.7,2.59-6.36,3.68-9.93,4.65-1.5.41-2.75,1.11-4.23,1.36l-5.73.96-4.09.69c-6.52,1.1-13.29,2.76-18.88,6.19-.7.43-1.35.82-1.21,1.61ZM121.22,97.26c3.65-2.07,6.22-4.76,9.16-7.4l6.88-6.19,5.17-5.49c.98-1.04,1.37-2.59,2.31-3.7,2.31-2.74,3.65-5.9,5.41-8.93,3.19-5.49,4.01-12.82-.51-14.5-2.98-1.11-5.38-.45-7.94.89-4.69,2.46-8.12,5.71-11.18,9.95-1.55,2.14-3.77,3.7-4.77,6.36l-2.78,4.7-1.76,5.37c-1.05,3.2-1.26,6.51-2.2,9.79-1.1,3.82-1.4,7.74-.52,11.34,1.21-.55,1.77-1.63,2.73-2.17ZM56.3,64.05c-3.1-.67-5.78.32-7.69,2.57,2.67-.59,5.14-1.14,7.69-2.57ZM82.26,113.27c3.02.94,6.31,1.47,9.51,1.49,4.35.03,7.97-2.08,11.56-4.26-.91-5.4-1.32-10.77-4.27-15.29l-3.9-5.98-3.39-3.76c-3.08-3.42-6.28-6.75-9.96-9.45-1.38-1.02-2.8-1.46-4.21-2.26l-3.78-2.15c-2.39-1.36-4.4-3.1-7.03-4.01-3.2,1.27-6.44,2.29-9.88,2.78l-9.86,1.39-.21,5.72c-.08,2.17.49,4.07.67,6.03.25,2.79,1.42,4.79,2.37,7.2,2.05,5.24,4.99,9.47,9.17,13.2,1.9,1.69,3.49,3.17,6.06,3.98l5.96,1.88,11.17,3.49ZM96.78,137.5l4.66-9.43c.76-1.53,1.97-2.99,1.92-4.85-.05-2.07-.26-3.93.45-6.02-2.64.1-4.76.72-6.94,2.04-5.52.77-11.27,1.14-16.68-.35-1.85-.51-3.54-.83-5.27-1.55l-5.51-2.29-4.95-1.79c-2.4-.87-4.52-1.43-6.46-3.16l-6.32-5.65c-2.17-1.94-4.37-4.45-5.26-7.23l-.68-2.12-2.42-5.2c-1.59-3.42-2.25-6.48-2.99-10.03l-.84-4.04c-.3-1.46.78-3.2-.94-4.56-1.91,1.01-4.33.45-6.3.88s-3.69.24-5.58.67l-8.64,1.95c-3.13.71-9.27,4.24-9.47,7.1-.16,2.26,4.19,6.7,6.77,8.97l2.75,2.42c3.71,3.27,7.37,6.32,11.2,9.45,1.03.84,1.91,2.04,2.96,2.96l11.48,10.06c2.51,2.2,4.7,4.78,6.85,7.34l5.1,6.08c1.47,1.75,2.46,4.13,4.35,5.54,2.15,1.61,4.33,2.96,6.37,4.85,4.61,4.26,7.79,7.75,14.4,6.96l3.54-.42c5.57-.67,9.9-3.46,12.43-8.59Z" fill="#a62425"/>
+      <path id="leaf_left" d="M117.08,276.6c-1.35-5.75-3.01-11.16-3.71-17.18,2.09-2.99,2.02-6.36,1.69-9.89l-.38-4.13c-.35-3.74-.23-7.52-1.18-11.25l-1.62-6.38c-.85-3.36-3.85-5.9-6.52-8.06l-8.16-6.58c-4.83-3.9-10.96-5.37-17.06-6-4.48-.47-8.71-1.41-13.17-1.04l-8.08-.26c4.5,4.38,7.17,11.5,7.92,17.5.71,5.72,2.26,11,4.25,16.34,1.22,3.27,2.39,6.22,4.55,9.04,1.74,2.27,3.3,4.88,5.85,6.43,6,3.64,16.33,4.63,17.8-1.71.81-3.49,1.25-7.73-.25-11.1-1.5-3.36-4.73-5.4-7.38-7.65l-6.3-4.09c1.29-2.2,2.37-1.23,3.62-.85l5.74,1.74c6.49,1.97,10.09,7.34,12.07,13.57,2.13,6.7,2.85,13.68.08,20.28-.95,2.25-2.11,4.01-4.24,5.39-1.26.82-2.68,2.01-4.18,2.53-7.41,2.56-15.12.25-21.27-4.21-2.96-2.15-5.5-4.11-7.47-7.32l-3.16-5.14-3.29-9.03-2.76-8.36c-.87-2.64-2.03-5.17-2.83-7.87-1.61-5.38-2.75-10.74-5.34-15.73-.86-1.65-2.11-2.88-3.17-4.34l-4.54-6.25c-2.18-3-8.59-2.44-8.95-3.72-.14-.49.08-1.22.71-1.31l5.53-.81c2.55-.37,4.89-.59,7.49-.7,5.84-.23,11.51-1.05,17.34-.8,5.02.21,9.77.56,14.82-.27,12.32,2.05,25.55,6.59,32.41,17.3l5.93,9.26c5.8,9.05,5.31,25.88,3.53,36.91-.88,5.51-.09,10.15,1.05,15.47l2.7,12.58c1.47,6.84,2.09,13.51,3.99,20.27,2.97,10.52,4.46,20.97,6.68,31.72l3.83,18.58c1.58,7.65,3.07,14.88,3.98,22.66l2.06,17.61,1.48,12.98c.98,8.67.89,17.16.68,25.91l-.12,5-.25,6.12c-.08,1.96.22,2.58-1.37,4-1.83,1.64-2.25,6.26-3.73,7.13-.45.26-1.54.56-1.96-.12-1.14-1.86,1.62-5.64,1.54-11.39l-.07-5.16-.71-12.59c-.4-7.04-1.05-13.73-1.17-20.78l-1.31-11.92-1.49-9.98-3.02-24.92-2.14-13.59c-.51-3.21-1.1-5.86-1.82-8.92l-3.66-15.53-2.42-12.72-4.27-17.21c-.97-3.91-1.98-7.51-2.9-11.45l-1.88-8.01Z" fill="#191612"/>
+      <path id="leaf_right" d="M143.42,136.72c1.51,2.47,2.78,5.06,4.1,7.83l6.39,13.47c1.4,2.94,2.35,5.79,3.5,8.85,2.26,6.04,4.01,12.16,3.98,18.7-.02,5.28-.67,10.28-.78,15.49l-.22,11.13-.14,10.75c-.08,6.55.05,13.07-1.93,19.29l-1.56,4.91c-.74,2.33-1.89,4.56-1.81,7.39,2.96-3.55,6.07-6.45,9.3-9.57l5.84-5.66c6.77-6.57,13.23-13.76,16.84-22.49.8-1.94-.28-5.92-.99-9.03-.97-4.25-.09-9.17,2.03-12.9,3.42-6.03,8.82-9.32,14.56-12.56,4.65-2.62,8.91-4.67,14.43-5.01,8.34-.5,16.09,1.72,23.79,5.02l22.52,9.64,6.59,2.2c3.43,1.14,5.87-.41,7.01,1.47.23.39.36,1.28-.21,1.84-3.87-.24-7.21,1.14-10.69,2.62-2.89,1.23-5.53,2.44-8.08,4.27l-8.31,5.98c-2.52,1.81-4.4,3.97-6.49,6.27l-4.15,4.57-14.81,12.5-7.02,5.35c-1.85,1.41-3.85,2.08-6.05,2.73l-3.97,1.17c-4.53,1.33-10.8-1.51-13.04-6-3.39-6.79.31-12.92,4.76-18.58l2.63-3.35c2.92-2.7,5.83-5.32,9.35-7.29l6.81-2.37c4.1-1.43,12.08-3.58,12.08-1.7,0,.74-.46.93-1.13,1.21-5.53,2.37-9.93,6.29-14.65,9.91-5.63,4.31-11.2,9.91-10.47,17.22.14,1.4.85,2.86,1.64,3.45,1.16.86,2.95.96,4.2.59,3.96-1.15,6.37-4.04,9.28-6.63,4.65-4.12,8.89-8.16,12.91-12.94l10.15-12.07,4.3-3.63c1.13-.95,2.1-1.46,3.67-2.38-6.42-1.05-12.39-3-18.45-5.59-8.5-3.63-18.24-3.61-26.63.27-3.23,1.49-6.44,3.26-8.13,6.53-1.87,3.63-2.75,7.33-2.95,11.4-.13,2.71-.43,5.26.08,7.98.61,3.24-.44,6.48-2.88,8.73l-3.69,3.41-8.55,7.73-6.25,6.09-9.59,10.68c-6.55,8.06-12.3,16.58-15.48,26.51l-4.63,14.48-3.82,16.52c-.14.63.17,1.43-.36,1.87-.33.28-.81.43-1.4.29l-2.03-5.92-2.18-8.97c-.31-1.28-.1-2.25-.08-3.65l.1-7.77,2.53-5.69,5.58-13.65c1.54-3.76,3.13-7.14,4.63-10.89l4.55-11.35c2.78-6.94,4.3-13.73,4.88-21.12.5-6.34,1.23-12.36,1.07-18.77l-.45-18.32-.46-5.22c-.06-5.93-1.32-11.71-3.6-17.12l-6.72-15.94c-1.92-4.56-4.54-8.79-7.38-12.6,2.77-1.02,2.63-3.05,4.29-2.97.78.04,1.35.64,1.81,1.38Z" fill="#191612"/>
+    </svg>
+  </div>
+  <div class="hero__txt" id="ht">
+    <h1>Gül<em>pembe</em><br>Çolak</h1>
+    <p class="hero__sub">Graphic Design &amp; Digital Media · Antwerp</p>
+  </div>
+  <div class="hero__scroll"><div class="hero__sl"></div><span>Scroll</span></div>
+</header>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about" id="about">
+  <div class="about__top">
+    <div class="about__photo rv">
+      <img src="profile.png" alt="Gülpembe Çolak" loading="lazy">
+    </div>
+    <div class="about__text rv">
+      <span class="label label--r">About</span>
+      <h2>Design with <span>intention</span>,<br>detail with care.</h2>
+      <p class="about__bio">I'm a graphic design and digital media student at AP Hogeschool Antwerp. My practice moves between brand identity, packaging, editorial, UI/UX and motion — guided by precision, materiality and a belief that good design is felt before it's understood.</p>
+      <dl class="about__grid">
+        <div><dt>Education</dt><dd>AP Hogeschool Antwerp<br>Graphic Design &amp; Digital Media<br>2023 – 2027</dd></div>
+        <div><dt>Experience</dt><dd>Sign Point Antwerpen — Graphic Designer<br>MC Tv Brussel — Video Editor</dd></div>
+        <div><dt>Tools</dt><dd>Photoshop · Illustrator · InDesign<br>After Effects · Figma · DaVinci Resolve</dd></div>
+        <div><dt>Languages</dt><dd>Turkish · English · Dutch</dd></div>
+      </dl>
+      <div class="about__tags">
+        <span>Branding</span><span>Packaging</span><span>Editorial</span><span>UI/UX</span><span>Motion</span><span>Typography</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section class="work" id="work">
+  <div class="work__head rv">
+    <div><span class="label label--r">Selected Work</span><h2>Recent Projects</h2></div>
+    <span class="work__n">9 Projects</span>
+  </div>
+
+  <div class="work__list">
+
+    <article class="proj rv" data-cat="packaging" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="boon.png" alt="BOON Luxe Koffie packaging" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">01</span>
+        <span class="proj__cat">Packaging</span>
+        <h3 class="proj__title">BOON Luxe Koffie<br>Packaging Design</h3>
+        <p class="proj__desc">Premium coffee packaging with copper foil stamping on matte black board — from die-cut engineering to shelf-ready mockup.</p>
+        <div class="proj__meta"><span>2025</span><span>Packaging · Print</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Brief</dt><dd>BOON needed packaging that communicates craft and premium positioning for their Speciale Melange line — standing out in specialty retail against established roasters.</dd></div>
+        <div class="cs__block"><dt>Approach</dt><dd>Matte black card stock as the foundation, with copper foil stamping for the monogram and key details. The die-cut structure uses a gable-top form — distinctive on shelf and practical for resealable use. Technical drawings were developed alongside the visual design to ensure production accuracy.</dd></div>
+        <div class="cs__block"><dt>Typography &amp; Detail</dt><dd>A custom-spaced slab serif for "BOON" sits above condensed sans for descriptors. Copper iconography for brew method and roast level provides functional elegance. Every panel is considered — front, side, and base carry the brand language consistently.</dd></div>
+        <div class="cs__block"><dt>Role</dt><dd>Full packaging design: concept, die-cut development, typography, icon system, and production-ready artwork.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · InDesign · Photoshop</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="branding" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="aura.png" alt="AURA brand identity" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">02</span>
+        <span class="proj__cat">Branding</span>
+        <h3 class="proj__title">AURA° Cosmetics<br>Brand Identity</h3>
+        <p class="proj__desc">Complete visual identity for a botanical skincare brand — from typography system and colour palette to product label and brand book.</p>
+        <div class="proj__meta"><span>2025</span><span>Identity · Packaging</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Brief</dt><dd>AURA° is a botanical skincare line seeking an identity that feels refined yet grounded — natural without cliché, premium without coldness. The brand targets women who value ingredient transparency and quiet luxury.</dd></div>
+        <div class="cs__block"><dt>Approach</dt><dd>The identity centres on Lora Serif paired with Karla Sans — balancing sophistication with readability. The colour palette draws from natural minerals: deep charcoal, oat beige, taupe grey, cream linen, and natural stone. Gold foil accents on dark stock elevate the physical presence.</dd></div>
+        <div class="cs__block"><dt>Deliverables</dt><dd>Brand book with typography and colour system, primary product label design (Radiance Serum), and a full guidelines document covering application across print, digital, and packaging touchpoints.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · InDesign · Photoshop</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="social" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="velvet-oak.png" alt="Velvet Oak social media" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">03</span>
+        <span class="proj__cat">Social &amp; Content</span>
+        <h3 class="proj__title">Velvet Oak<br>Social Media System</h3>
+        <p class="proj__desc">Instagram grid and content strategy for a sustainable fashion brand — cohesive tile system, lifestyle photography direction, and story templates.</p>
+        <div class="proj__meta"><span>2025</span><span>Social · Art Direction</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Brief</dt><dd>Velvet Oak is an ethical fashion brand with an existing audience but inconsistent visual language on Instagram. They needed a grid system that tells their sustainability story while feeling aspirational and shoppable.</dd></div>
+        <div class="cs__block"><dt>Approach</dt><dd>A 9-tile repeating grid structure mixing lifestyle imagery, typography cards, and product close-ups. Warm earth tones — terracotta, sage, sand — unify the feed. Each tile type has defined proportions and text placement rules, making the system scalable for the team to maintain independently.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Figma · Adobe Photoshop · Lightroom</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="editorial" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="kunst.png" alt="KUNST Amsterdam editorial" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">04</span>
+        <span class="proj__cat">Editorial</span>
+        <h3 class="proj__title">KUNST Amsterdam<br>Exhibition Catalogue</h3>
+        <p class="proj__desc">Art direction and layout for a gallery exhibition catalogue — minimalist editorial design with strong typographic hierarchy and considered image pacing.</p>
+        <div class="proj__meta"><span>2024</span><span>Print · Editorial</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Brief</dt><dd>KUNST Amsterdam required a print catalogue for their "Stillness in Form" and "Exploring the Minimal" exhibitions — a publication that functions both as exhibition guide and as a standalone collectible art object.</dd></div>
+        <div class="cs__block"><dt>Approach</dt><dd>Clean, gallery-white spreads with generous margins. Typography leads — bold headlines create rhythm between full-bleed imagery and text-heavy pages. The grid alternates between symmetrical and asymmetrical layouts to maintain visual tension across 48 pages.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Adobe InDesign · Photoshop · Illustrator</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="packaging" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="puur.png" alt="PUUR sustainable bottle" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">05</span>
+        <span class="proj__cat">Product &amp; Packaging</span>
+        <h3 class="proj__title">PUUR<br>Sustainable Drinkfles</h3>
+        <p class="proj__desc">Product label and visual identity for an eco-conscious reusable bottle — clean, material-honest design that communicates sustainability without greenwashing.</p>
+        <div class="proj__meta"><span>2025</span><span>Packaging · Identity</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Approach</dt><dd>The word "PUUR" is debossed into stone-textured paper — the material speaks the brand's values. A minimal leaf icon and the tagline "Duurzame Drinkfles" provide all the information needed. Frosted glass, bamboo cap, and woven cord loop complete the tactile experience. The accompanying poster uses the same recycling iconography in a restrained, informational way.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · Photoshop</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="branding" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="lumina.png" alt="Lumina Coffee Roasters" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">06</span>
+        <span class="proj__cat">Branding</span>
+        <h3 class="proj__title">Lumina Coffee Roasters<br>Brand Identity</h3>
+        <p class="proj__desc">Logo, stationery, and collateral for an artisan coffee roaster — geometric sun-and-mountain mark applied across cup sleeve, business cards, and tote bag.</p>
+        <div class="proj__meta"><span>2024</span><span>Identity · Print</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Approach</dt><dd>The symbol combines a rising sun with mountain silhouettes — referencing both the origin of coffee and the brand's name ("light"). Warm terracotta and golden ochre sit on kraft paper backgrounds, creating an honest, handcrafted feel. The system works at every scale, from a tiny business card icon to a large tote bag print.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · InDesign</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="digital" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="flora.png" alt="Flora Care app" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">07</span>
+        <span class="proj__cat">UI/UX</span>
+        <h3 class="proj__title">Flora Care<br>Plant App Design</h3>
+        <p class="proj__desc">Mobile UI/UX for a plant care companion app — collection tracking, AI-powered plant identification, watering reminders and care guides.</p>
+        <div class="proj__meta"><span>2025</span><span>UI/UX · Digital</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Brief</dt><dd>Flora Care helps plant owners track, identify and care for their collection. The app needed to feel warm and organic — not clinical — while delivering dense functionality across scanning, scheduling, and community features.</dd></div>
+        <div class="cs__block"><dt>Approach</dt><dd>A deep green and cream palette mirrors the botanical subject matter. Card-based layouts with illustrated plant icons give the home screen a greenhouse-like quality. The scanning flow uses camera-native UI with overlaid identification results, keeping the interaction fast and intuitive.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Figma · Adobe Illustrator</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="web" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="monolith.png" alt="Monolith Architects website" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">08</span>
+        <span class="proj__cat">Web Design</span>
+        <h3 class="proj__title">Monolith Architects<br>Website Design</h3>
+        <p class="proj__desc">Responsive website concept for a brutalist architecture firm — bold typography, full-bleed imagery, and a project grid that lets the buildings speak.</p>
+        <div class="proj__meta"><span>2024</span><span>Web · UI</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Approach</dt><dd>Black-and-white photography dominates — colour would compete with the raw concrete. Navigation uses a horizontal dash-separated system for editorial feel. The project grid below the hero uses equal-width cards with bold, uppercase titles — reflecting the architectural precision of the work itself.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Figma · Adobe Photoshop</dd></div>
+      </div></div>
+    </article>
+
+    <article class="proj rv" data-cat="editorial" onclick="toggleCs(this)">
+      <div class="proj__img"><img src="type-mag.png" alt="TYPE magazine editorial" loading="lazy"></div>
+      <div class="proj__info">
+        <span class="proj__num">09</span>
+        <span class="proj__cat">Editorial</span>
+        <h3 class="proj__title">TYPE Magazine<br>Negative Space Feature</h3>
+        <p class="proj__desc">Magazine spread design exploring typography fundamentals and negative space — line-drawn botanical illustrations paired with expressive display type.</p>
+        <div class="proj__meta"><span>2025</span><span>Editorial · Typography</span></div>
+        <div class="proj__expand">View details</div>
+      </div>
+      <div class="cs"><div class="cs__inner">
+        <h4>Case Study</h4>
+        <div class="cs__block"><dt>Approach</dt><dd>The spread is structured as a visual essay — a large botanical illustration anchors the left page while "The Power of Negative Space" in display serif cascades across the right. The pull quote "Embrace the emptiness. It is there that design really breathes." sets the philosophical tone. Column widths vary intentionally to demonstrate the very concept the article discusses.</dd></div>
+        <div class="cs__block"><dt>Tools</dt><dd>Adobe InDesign · Illustrator</dd></div>
+      </div></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<footer class="contact" id="contact">
+  <div class="contact__left rv">
+    <span class="label label--r">Get in touch</span>
+    <div class="contact__h">
+      <h2>Let's<br><span>talk.</span></h2>
+      <a class="wa" href="https://wa.me/32494718997?text=Merhaba%20G%C3%BClpembe!%20Portfolyon%C3%BC%20g%C3%B6rd%C3%BCm%2C%20seninle%20%C3%A7al%C4%B1%C5%9Fmak%20isterim." target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path class="wb" fill-rule="evenodd" clip-rule="evenodd" d="M16 2.667C8.636 2.667 2.667 8.636 2.667 16c0 2.328.628 4.512 1.724 6.39L2.667 29.334l7.155-1.692A13.267 13.267 0 0 0 16 29.334c7.364 0 13.333-5.969 13.333-13.333C29.333 8.636 23.364 2.667 16 2.667Z"/><path class="wp" fill-rule="evenodd" clip-rule="evenodd" d="M11.95 9.6c-.32-.72-.656-.735-.96-.748-.249-.011-.533-.011-.817-.011-.284 0-.747.107-1.138.534C8.645 9.8 7.467 10.92 7.467 13.2c0 2.28 1.626 4.48 1.853 4.793.226.312 3.147 5.014 7.734 6.827 3.827 1.507 4.587 1.21 5.414 1.133.826-.077 2.666-1.09 3.04-2.147.373-1.056.373-1.963.262-2.147-.11-.183-.4-.293-.83-.512-.43-.22-2.547-1.258-2.94-1.4-.393-.143-.68-.22-.96.22-.28.44-1.084 1.4-1.328 1.687-.244.286-.488.32-.907.11-.42-.22-1.77-.654-3.372-2.086-1.246-1.113-2.087-2.487-2.33-2.906-.244-.42-.026-.648.183-.857.187-.188.42-.488.63-.733.21-.244.28-.42.42-.698.14-.28.07-.527-.035-.733-.107-.206-.948-2.304-1.337-3.15Z"/></svg>
+      </a>
+    </div>
+    <div class="contact__links">
+      <a href="mailto:gulpembecolak@gmail.com">gulpembecolak@gmail.com</a>
+      <a href="tel:+32494718997" class="ph">+32 494 71 89 97</a>
+    </div>
+  </div>
+  <div class="contact__r rv">
+    <div class="contact__soc">
+      <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/gulpembe-colak" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://gulpembecolak1.wixsite.com/gulpish" target="_blank" rel="noopener">Portfolio</a>
+    </div>
+    <span class="contact__copy">© 2025 Gülpembe Çolak — Living Lines</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* Cursor */
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+if(window.matchMedia('(hover:hover)').matches&&innerWidth>900){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button,.proj').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))});
+}
+
+/* Nav scroll bg */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>60)},{passive:true});
+
+/* Rose stroke draw */
+const seq=[
+  {id:'leaf_left', delay:100, dur:3200},
+  {id:'leaf_right',delay:1200,dur:2400},
+  {id:'bud',       delay:800, dur:3600},
+];
+window.addEventListener('load',()=>{
+  seq.forEach(({id,delay,dur})=>{
+    const p=document.getElementById(id);
+    if(!p)return;
+    const len=p.getTotalLength?p.getTotalLength():1500;
+    p.style.transition='none';
+    p.style.fillOpacity='0';
+    p.style.strokeOpacity='1';
+    p.style.strokeDasharray=len;
+    p.style.strokeDashoffset=len;
+    setTimeout(()=>{
+      p.style.transition=`stroke-dashoffset ${dur}ms cubic-bezier(0.25,0.1,0.25,1)`;
+      p.style.strokeDashoffset='0';
+    },delay);
+    setTimeout(()=>{
+      p.style.transition='fill-opacity 1.2s ease, stroke-opacity 0.8s ease 0.3s';
+      p.style.fillOpacity='1';
+      p.style.strokeOpacity='0';
+    },delay+dur+100);
+  });
+  setTimeout(()=>document.getElementById('ht').classList.add('in'),4200);
+});
+
+/* Scroll reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06});
+document.querySelectorAll('.rv:not(#ht)').forEach(el=>io.observe(el));
+
+/* Parallax */
+const rs=document.getElementById('rs');
+window.addEventListener('scroll',()=>{if(scrollY<innerHeight)rs.style.transform='translateY('+scrollY*.05+'px)'},{ passive:true});
+
+/* Case study toggle */
+window.toggleCs=function(proj){
+  const cs=proj.querySelector('.cs');
+  if(!cs)return;
+  const isOpen=cs.classList.contains('open');
+  document.querySelectorAll('.cs.open').forEach(c=>c.classList.remove('open'));
+  if(!isOpen)cs.classList.add('open');
+};
+})();
+</script>
+</body>
+</html>
