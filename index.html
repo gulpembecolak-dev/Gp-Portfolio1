@@ -9,16 +9,20 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-655WEKJH8K');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="translations.js"></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 font-family=%22'Cormorant Garamond',serif%22 font-style=%22italic%22 fill=%22%23a62425%22>G</text></svg>">
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --cream:#F5F0EA;--rose:#a62425;--ink:#1A1814;--ink-m:#4A3F36;--ink-50:#8B7B6E;--ink-30:#B8AD9F;--ink-10:rgba(26,24,20,.08);
-  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Barlow Condensed','Helvetica Neue',sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter','Helvetica Neue',sans-serif;--cond:'Barlow Condensed','Helvetica Neue',sans-serif;
   --ease:cubic-bezier(.4,0,.2,1);--max:1200px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(26,24,20,.006) 2px,rgba(26,24,20,.006) 3px)}
 a{color:inherit}
 img{display:block;max-width:100%;height:auto}
@@ -30,28 +34,81 @@ img{display:block;max-width:100%;height:auto}
 body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:.15}
 @media(hover:none),(max-width:900px){.cd,.cr{display:none}body{cursor:auto}}
 
+
+/* Progress Line Logic */
+const progressLine = document.getElementById('progress-line');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressLine.style.width = scrollPercent + '%';
+}, {passive: true});
+
 /* Scroll reveal */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rv.in{opacity:1;transform:none}
 
 /* Label */
-.label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-50);display:block;margin-bottom:1rem}
+.label{font-family:var(--cond);font-size:13px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-50);display:block;margin-bottom:1rem}
 .label--r{color:var(--rose)}
+
+
+/* Progress Line & Custom Scrollbar */
+#progress-line { position: fixed; top: 0; left: 0; height: 2px; background: var(--rose); z-index: 999999; width: 0%; pointer-events: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 4px; }
 
 /* ─── NAV — centered ─── */
 .nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:center;align-items:center;gap:3rem;padding:1.8rem 2rem;transition:background .3s,box-shadow .3s}
 .nav.scrolled{background:rgba(245,240,234,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--ink-10)}
-.nav a{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-50);text-decoration:none;padding:4px 0;position:relative;transition:color .2s}
+.nav a{font-family:var(--cond);font-size:13px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-50);text-decoration:none;padding:4px 0;position:relative;transition:color .2s}
 .nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:.5px;background:var(--rose);transition:width .3s var(--ease)}
 .nav a:hover{color:var(--ink)}.nav a:hover::after{width:100%}
+.nav__lang{display:flex;gap:12px;align-items:center;justify-content:flex-end;flex:1}
+.nav__lang button{background:none;border:none;font-family:var(--cond);font-size:12px;font-weight:600;color:var(--ink-30);cursor:pointer;transition:color .2s;padding:0}
+.nav__lang button:hover{color:var(--rose)}
+.nav__lang button.active{color:var(--ink)}
+.modal{position:fixed;inset:0;background:rgba(245,240,234,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:99999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+.modal.open{opacity:1;pointer-events:auto}
+.modal__inner{text-align:center;max-width:400px;padding:2rem}
+.modal__inner h2{font-family:var(--serif);font-size:36px;font-weight:300;margin-bottom:1rem;color:var(--ink)}
+.modal__inner p{font-family:var(--sans);font-size:15px;color:var(--ink-50);margin-bottom:2.5rem}
+.modal__langs{display:flex;flex-direction:column;gap:1rem}
+.modal__langs button{background:transparent;border:1px solid var(--ink-10);padding:14px 2rem;border-radius:40px;font-family:var(--cond);font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:all .3s var(--ease)}
+.modal__langs button:hover{border-color:var(--rose);background:var(--rose);color:var(--cream)}
+
+
+/* Lenis */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+
+/* Preloader */
+.preloader { position: fixed; inset: 0; background: var(--cream); z-index: 9999999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+.preloader.hide { opacity: 0; pointer-events: none; transform: translateY(-20px); }
+.preloader__text { font-family: var(--serif); font-size: 32px; font-style: italic; color: var(--rose); letter-spacing: 0.1em; opacity: 0; animation: pulse 2s infinite ease-in-out; }
+@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.preloader__line { width: 1px; height: 0; background: var(--rose); margin-top: 2rem; animation: growLine 1.5s var(--ease) forwards; }
+@keyframes growLine { to { height: 80px; } }
+
+/* Case Study Editorial Layout */
+.cs__inner { display: grid; grid-template-columns: 1fr; gap: 3rem; padding: 3rem 0; border-top: 1px solid var(--ink-10); margin-top: 2rem; }
+@media(min-width: 768px) { .cs__inner { grid-template-columns: 1fr 1fr; } }
+.cs__text-grid { display: grid; gap: 3rem; align-content: start; }
+.cs__gallery { display: grid; gap: 1rem; }
+.cs__img { width: 100%; aspect-ratio: 4/5; object-fit: cover; background: var(--ink-5); filter: grayscale(100%) contrast(1.1); transition: filter 0.8s var(--ease); }
+.cs__img:hover { filter: grayscale(0%) contrast(1); }
 
 /* ─── Sidebar name ─── */
 .side{position:fixed;bottom:2.5rem;left:1.8rem;z-index:200;transform:rotate(-90deg);transform-origin:left bottom;white-space:nowrap;display:flex;align-items:baseline;gap:1rem}
 .side span:first-child{font-family:var(--serif);font-size:13px;font-weight:400;letter-spacing:.04em;color:var(--ink)}
-.side span:last-child{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50)}
+.side span:last-child{font-family:var(--cond);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50)}
 
 /* ═══ HERO ═══ */
-.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem 3rem;gap:0;position:relative}
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem 8rem;gap:0;position:relative}
 .hero__rose{width:clamp(200px,28vw,320px)}
 .hero__rose svg{width:100%;height:auto;display:block;overflow:visible}
 /* Rose paths: all start invisible, stroke draws on */
@@ -63,10 +120,13 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 .hero__txt.in{opacity:1;transform:none}
 .hero__txt h1{font-family:var(--serif);font-size:clamp(44px,7.5vw,96px);font-weight:300;line-height:.92;letter-spacing:-.01em}
 .hero__txt h1 em{font-style:italic;color:var(--rose);font-weight:300}
-.hero__sub{font-family:var(--sans);font-size:clamp(11px,1.2vw,13px);font-weight:400;letter-spacing:.35em;text-transform:uppercase;color:var(--ink-50);margin-top:1.2rem}
-.hero__scroll{position:absolute;bottom:2rem;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fi .8s ease 5s forwards}
-.hero__scroll span{font-family:var(--sans);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-30)}
-.hero__sl{width:1px;height:36px;background:var(--ink-30);transform-origin:top;animation:drip 2.5s ease-in-out 5.2s infinite}
+.hero__sub{font-family:var(--cond);font-size:clamp(13px,1.5vw,16px);font-weight:400;letter-spacing:.35em;text-transform:uppercase;color:var(--ink-50);margin-top:1.2rem}
+.hero__scroll{position:absolute;bottom:1.5rem;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fi .8s ease 5s forwards}
+.hero__scroll span{font-family:var(--cond);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-30)}
+.hero__sl{width:1px;height:24px;background:var(--rose);transform-origin:top;animation:drip 2.5s ease-in-out 5.2s infinite}
+.hero__soc{display:flex;justify-content:center;gap:1rem;margin-top:1.5rem}
+.hero__soc a{font-family:var(--cond);font-size:13px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:.5px solid var(--ink-30);padding:10px 28px;border-radius:40px;transition:all .3s var(--ease)}
+.hero__soc a:hover{border-color:var(--rose);color:var(--cream);background:var(--rose)}
 @keyframes fi{to{opacity:1}}
 @keyframes drip{0%{transform:scaleY(0);opacity:.7}50%{transform:scaleY(1);opacity:.7}100%{transform:scaleY(1);opacity:0}}
 
@@ -78,23 +138,27 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 .about__photo::after{content:'';position:absolute;inset:0;border:.5px solid var(--ink-10)}
 .about__text h2{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:300;font-style:italic;line-height:1.1;margin-bottom:1.5rem}
 .about__text h2 span{color:var(--rose);font-style:normal}
-.about__bio{font-family:var(--serif);font-size:clamp(15px,1.5vw,18px);font-weight:300;line-height:1.8;color:var(--ink-m);margin-bottom:2rem}
+.about__bio{font-family:var(--sans);font-size:clamp(16px,1.8vw,20px);font-weight:400;line-height:1.6;color:var(--ink);margin-bottom:2.5rem}
 .about__grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 2.5rem}
-.about__grid dt{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-50);margin-bottom:4px}
-.about__grid dd{font-family:var(--serif);font-size:14px;font-weight:300;line-height:1.6;color:var(--ink)}
+.about__grid dt{font-family:var(--cond);font-size:12px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-50);margin-bottom:4px}
+.about__grid dd{font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.6;color:var(--ink)}
 .about__tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2rem}
-.about__tags span{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;border:.5px solid var(--ink-10);color:var(--ink-50);transition:border-color .2s,color .2s}
+.about__tags span{font-family:var(--cond);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;border:.5px solid var(--ink-10);color:var(--ink-50);transition:border-color .2s,color .2s}
 .about__tags span:hover{border-color:var(--rose);color:var(--rose)}
 
 /* ═══ WORK ═══ */
 .work{padding:clamp(60px,10vw,140px) 0;border-top:.5px solid var(--ink-10)}
 .work__head{max-width:var(--max);margin:0 auto;padding:0 2rem;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:clamp(2rem,4vw,4rem)}
 .work__head h2{font-family:var(--serif);font-size:clamp(32px,4.5vw,56px);font-weight:300;font-style:italic;line-height:1}
-.work__n{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);margin-bottom:4px}
-.work__list{max-width:var(--max);margin:0 auto;padding:0 2rem}
+.work__n{font-family:var(--cond);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);margin-bottom:4px}
+.work__list{max-width:var(--max);margin:0 auto;padding:0 2rem 0 clamp(4rem, 8vw, 8rem);position:relative}
+.work__stem{position:absolute;top:0;bottom:0;left:clamp(2rem, 4vw, 4rem);width:1px;background:var(--rose);transform-origin:top;transform:scaleY(0);transition:transform 4s cubic-bezier(.22, 1, .36, 1) .2s}
+.work__stem.in{transform:scaleY(1)}
 
 /* Project row */
-.proj{display:grid;grid-template-columns:1.15fr 1fr;gap:0 clamp(2rem,4vw,4rem);padding:clamp(2.5rem,4vw,4rem) 0;border-top:.5px solid var(--ink-10);align-items:start;cursor:pointer;transition:opacity .4s}
+.proj{display:grid;grid-template-columns:1.15fr 1fr;gap:0 clamp(2rem,4vw,4rem);padding:clamp(3rem,5vw,5rem) 0;align-items:start;cursor:pointer;transition:opacity .4s;position:relative}
+.proj::before{content:'';position:absolute;top:0;left:calc(-1 * clamp(2rem, 4vw, 4rem));width:clamp(2rem, 4vw, 4rem);height:clamp(3rem, 5vw, 5rem);border-bottom:1px solid var(--rose);border-left:1px solid var(--rose);border-bottom-left-radius:24px;clip-path:inset(0 100% 0 0);transition:clip-path 1.2s var(--ease) .4s, opacity .8s;opacity:0}
+.proj.in::before{clip-path:inset(0 0 0 0);opacity:1}
 .proj:nth-child(even){grid-template-columns:1fr 1.15fr}
 .proj:nth-child(even) .proj__img{order:2}
 .proj:nth-child(even) .proj__info{order:1}
@@ -102,24 +166,24 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 .proj__img img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .6s var(--ease),filter .4s}
 .proj:hover .proj__img img{transform:scale(1.03);filter:brightness(1.04)}
 .proj__num{font-family:var(--serif);font-size:12px;font-weight:300;color:var(--ink-30);font-style:italic;margin-bottom:.75rem}
-.proj__cat{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--rose);margin-bottom:.6rem}
+.proj__cat{font-family:var(--cond);font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--rose);margin-bottom:.6rem}
 .proj__title{font-family:var(--serif);font-size:clamp(22px,2.8vw,36px);font-weight:400;line-height:1.15;color:var(--ink);margin-bottom:.8rem;transition:color .2s}
 .proj:hover .proj__title{color:var(--rose)}
-.proj__desc{font-family:var(--serif);font-size:clamp(13px,1.3vw,15px);font-weight:300;line-height:1.7;color:var(--ink-m);max-width:420px;margin-bottom:1.2rem}
+.proj__desc{font-family:var(--sans);font-size:clamp(15px,1.5vw,17px);font-weight:400;line-height:1.6;color:var(--ink);max-width:420px;margin-bottom:1.2rem}
 .proj__meta{display:flex;gap:1.5rem}
-.proj__meta span{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-30)}
-.proj__expand{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);margin-top:1rem;display:flex;align-items:center;gap:.5rem;transition:gap .2s}
+.proj__meta span{font-family:var(--cond);font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-30)}
+.proj__expand{font-family:var(--cond);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);margin-top:1rem;display:flex;align-items:center;gap:.5rem;transition:gap .2s}
 .proj:hover .proj__expand{gap:.8rem}
 .proj__expand::after{content:'→';font-size:13px}
 
 /* Case study inline expand */
 .cs{max-height:0;overflow:hidden;transition:max-height .6s var(--ease),padding .4s;padding:0 0;grid-column:1/-1}
 .cs.open{max-height:2000px;padding:2.5rem 0 1rem}
-.cs__inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem 3rem;font-family:var(--serif)}
-.cs__inner h4{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem;grid-column:1/-1}
+
+.cs__inner h4{font-family:var(--cond);font-size:13px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem;grid-column:1/-1}
 .cs__block{margin-bottom:1.5rem}
-.cs__block dt{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);margin-bottom:6px}
-.cs__block dd{font-family:var(--serif);font-size:14px;font-weight:300;line-height:1.7;color:var(--ink-m)}
+.cs__block dt{font-family:var(--cond);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);margin-bottom:6px}
+.cs__block dd{font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.6;color:var(--ink)}
 
 /* ═══ CONTACT ═══ */
 .contact{padding:clamp(60px,10vw,120px) 2rem;max-width:var(--max);margin:0 auto;border-top:.5px solid var(--ink-10);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:end}
@@ -133,10 +197,10 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 .contact__links{display:flex;flex-direction:column;gap:.5rem}
 .contact__links a{font-family:var(--serif);font-size:clamp(15px,1.5vw,19px);font-weight:300;color:var(--ink-m);text-decoration:none;width:fit-content;transition:color .2s}
 .contact__links a:hover{color:var(--rose)}
-.contact__links .ph{font-family:var(--sans);font-size:12px;letter-spacing:.08em;color:var(--ink-50)}
+.contact__links .ph{font-family:var(--cond);font-size:14px;letter-spacing:.08em;color:var(--ink-50)}
 .contact__r{display:flex;flex-direction:column;gap:1.5rem;align-items:flex-end}
 .contact__soc{display:flex;gap:2rem}
-.contact__soc a{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);text-decoration:none;transition:color .2s}
+.contact__soc a{font-family:var(--cond);font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-50);text-decoration:none;transition:color .2s}
 .contact__soc a:hover{color:var(--rose)}
 .contact__copy{font-family:var(--serif);font-size:12px;font-style:italic;color:var(--ink-30)}
 
@@ -147,11 +211,14 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
   .hero__rose{width:clamp(180px,50vw,260px)}
   .about__top{grid-template-columns:1fr}
   .about__photo{max-width:320px;margin-bottom:1rem}
+  .work__list{padding:0 1.5rem 0 3.5rem}
+  .work__stem{left:2rem}
+  .proj::before{left:-1.5rem;width:1.5rem;border-bottom-left-radius:16px}
   .proj{grid-template-columns:1fr!important}
   .proj:nth-child(even) .proj__img{order:0}
   .proj:nth-child(even) .proj__info{order:0}
   .proj__img img{aspect-ratio:16/9}
-  .cs__inner{grid-template-columns:1fr}
+  
   .contact{grid-template-columns:1fr;gap:2.5rem}
   .contact__r{align-items:flex-start}
 }
@@ -169,6 +236,24 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 </style>
 </head>
 <body>
+<div class="preloader" id="preloader">
+  <div class="preloader__text">Living Lines.</div>
+  <div class="preloader__line"></div>
+</div>
+
+<div class="modal" id="lang-modal">
+  <div class="modal__inner">
+    <h2 data-i18n="modal_title">Choose Language</h2>
+    <p data-i18n="modal_sub">Select your preferred language to continue.</p>
+    <div class="modal__langs">
+      <button onclick="initLang('en')">English</button>
+      <button onclick="initLang('tr')">Türkçe</button>
+      <button onclick="initLang('nl')">Nederlands</button>
+    </div>
+  </div>
+</div>
+
+<div id="progress-line"></div>
 <div class="cd" id="cd" aria-hidden="true"></div>
 <div class="cr" id="cr" aria-hidden="true"></div>
 
@@ -177,10 +262,18 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
   <span>Graphic &amp; Digital Design · Antwerp</span>
 </div>
 
-<nav class="nav" id="nav" role="navigation" aria-label="Main">
-  <a href="#about">About</a>
-  <a href="#work">Work</a>
-  <a href="#contact">Contact</a>
+<nav class="nav" id="nav" role="navigation" aria-label="Main" style="justify-content:space-between">
+  <div style="flex:1"></div>
+  <div style="display:flex;gap:3rem;justify-content:center">
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#work" data-i18n="nav_work">Work</a>
+    <a href="#contact" data-i18n="nav_contact">Contact</a>
+  </div>
+  <div class="nav__lang">
+    <button onclick="setLang('en')" id="btn-en">EN</button>
+    <button onclick="setLang('tr')" id="btn-tr">TR</button>
+    <button onclick="setLang('nl')" id="btn-nl">NL</button>
+  </div>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -194,9 +287,14 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
   </div>
   <div class="hero__txt" id="ht">
     <h1>Gül<em>pembe</em><br>Çolak</h1>
-    <p class="hero__sub">Graphic Design &amp; Digital Media · Antwerp</p>
+    <p class="hero__sub" data-i18n="hero_sub">Graphic Design &amp; Digital Media · Antwerp</p>
+    <div class="hero__soc">
+      <a href="mailto:gulpembecolak@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/gülpembe-çolak-736a1a278/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/gulpembecc/" target="_blank" rel="noopener">Instagram</a>
+    </div>
   </div>
-  <div class="hero__scroll"><div class="hero__sl"></div><span>Scroll</span></div>
+  <div class="hero__scroll"><div class="hero__sl"></div><span data-i18n="hero_scroll">Scroll</span></div>
 </header>
 
 <!-- ═══ ABOUT ═══ -->
@@ -206,14 +304,14 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
       <img src="profile.png" alt="Gülpembe Çolak" loading="lazy">
     </div>
     <div class="about__text rv">
-      <span class="label label--r">About</span>
-      <h2>Design with <span>intention</span>,<br>detail with care.</h2>
-      <p class="about__bio">I'm a graphic design and digital media student at AP Hogeschool Antwerp. My practice moves between brand identity, packaging, editorial, UI/UX and motion — guided by precision, materiality and a belief that good design is felt before it's understood.</p>
+      <span class="label label--r" data-i18n="about_label">About</span>
+      <h2><span data-i18n="about_h2_1">Design with </span><span data-i18n="about_h2_2">intention</span><span data-i18n="about_h2_3">,<br>detail with care.</span></h2>
+      <p class="about__bio" data-i18n="about_bio">I'm a graphic design and digital media student at AP Hogeschool Antwerp. My practice moves between brand identity, packaging, editorial, UI/UX and motion — guided by precision, materiality and a belief that good design is felt before it's understood.</p>
       <dl class="about__grid">
-        <div><dt>Education</dt><dd>AP Hogeschool Antwerp<br>Graphic Design &amp; Digital Media<br>2023 – 2027</dd></div>
-        <div><dt>Experience</dt><dd>Sign Point Antwerpen — Graphic Designer<br>MC Tv Brussel — Video Editor</dd></div>
-        <div><dt>Tools</dt><dd>Photoshop · Illustrator · InDesign<br>After Effects · Figma · DaVinci Resolve</dd></div>
-        <div><dt>Languages</dt><dd>Turkish · English · Dutch</dd></div>
+        <div><dt data-i18n="about_ed_title">Education</dt><dd data-i18n="about_ed_desc">AP Hogeschool Antwerp<br>Graphic Design &amp; Digital Media<br>2023 – 2027</dd></div>
+        <div><dt data-i18n="about_exp_title">Experience</dt><dd data-i18n="about_exp_desc">Sign Point Antwerpen — Graphic Designer<br>MC Tv Brussel — Video Editor</dd></div>
+        <div><dt data-i18n="about_tools_title">Tools</dt><dd>Photoshop · Illustrator · InDesign<br>After Effects · Figma · DaVinci Resolve</dd></div>
+        <div><dt data-i18n="about_lang_title">Languages</dt><dd data-i18n="about_lang_desc">Turkish · English · Dutch</dd></div>
       </dl>
       <div class="about__tags">
         <span>Branding</span><span>Packaging</span><span>Editorial</span><span>UI/UX</span><span>Motion</span><span>Typography</span>
@@ -225,11 +323,12 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 <!-- ═══ WORK ═══ -->
 <section class="work" id="work">
   <div class="work__head rv">
-    <div><span class="label label--r">Selected Work</span><h2>Recent Projects</h2></div>
-    <span class="work__n">9 Projects</span>
+    <div><span class="label label--r" data-i18n="work_label">Selected Work</span><h2 data-i18n="work_h2">Recent Projects</h2></div>
+    <span class="work__n" data-i18n="work_n">9 Projects</span>
   </div>
 
   <div class="work__list">
+    <div class="work__stem rv"></div>
 
     <article class="proj rv" data-cat="packaging" onclick="toggleCs(this)">
       <div class="proj__img"><img src="boon.png" alt="BOON Luxe Koffie packaging" loading="lazy"></div>
@@ -237,17 +336,22 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">01</span>
         <span class="proj__cat">Packaging</span>
         <h3 class="proj__title">BOON Luxe Koffie<br>Packaging Design</h3>
-        <p class="proj__desc">Premium coffee packaging with copper foil stamping on matte black board — from die-cut engineering to shelf-ready mockup.</p>
+        <p class="proj__desc" data-i18n="proj1_desc">Premium coffee packaging with copper foil stamping on matte black board — from die-cut engineering to shelf-ready mockup.</p>
         <div class="proj__meta"><span>2025</span><span>Packaging · Print</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Brief</dt><dd>BOON needed packaging that communicates craft and premium positioning for their Speciale Melange line — standing out in specialty retail against established roasters.</dd></div>
-        <div class="cs__block"><dt>Approach</dt><dd>Matte black card stock as the foundation, with copper foil stamping for the monogram and key details. The die-cut structure uses a gable-top form — distinctive on shelf and practical for resealable use. Technical drawings were developed alongside the visual design to ensure production accuracy.</dd></div>
-        <div class="cs__block"><dt>Typography &amp; Detail</dt><dd>A custom-spaced slab serif for "BOON" sits above condensed sans for descriptors. Copper iconography for brew method and roast level provides functional elegance. Every panel is considered — front, side, and base carry the brand language consistently.</dd></div>
-        <div class="cs__block"><dt>Role</dt><dd>Full packaging design: concept, die-cut development, typography, icon system, and production-ready artwork.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · InDesign · Photoshop</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="brief">Brief</dt><dd data-i18n="proj1_brief">BOON needed packaging that communicates craft and premium positioning for their Speciale Melange line — standing out in specialty retail against established roasters.</dd></div>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj1_approach">Matte black card stock as the foundation, with copper foil stamping for the monogram and key details. The die-cut structure uses a gable-top form — distinctive on shelf and practical for resealable use. Technical drawings were developed alongside the visual design to ensure production accuracy.</dd></div>
+        <div class="cs__block"><dt data-i18n="typography_detail">Typography &amp; Detail</dt><dd data-i18n="proj1_typo">A custom-spaced slab serif for "BOON" sits above condensed sans for descriptors. Copper iconography for brew method and roast level provides functional elegance. Every panel is considered — front, side, and base carry the brand language consistently.</dd></div>
+        <div class="cs__block"><dt data-i18n="role">Role</dt><dd data-i18n="proj1_role">Full packaging design: concept, die-cut development, typography, icon system, and production-ready artwork.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Adobe Illustrator · InDesign · Photoshop</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1600861194942-f883de0dfe96?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -257,16 +361,21 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">02</span>
         <span class="proj__cat">Branding</span>
         <h3 class="proj__title">AURA° Cosmetics<br>Brand Identity</h3>
-        <p class="proj__desc">Complete visual identity for a botanical skincare brand — from typography system and colour palette to product label and brand book.</p>
+        <p class="proj__desc" data-i18n="proj2_desc">Complete visual identity for a botanical skincare brand — from typography system and colour palette to product label and brand book.</p>
         <div class="proj__meta"><span>2025</span><span>Identity · Packaging</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Brief</dt><dd>AURA° is a botanical skincare line seeking an identity that feels refined yet grounded — natural without cliché, premium without coldness. The brand targets women who value ingredient transparency and quiet luxury.</dd></div>
-        <div class="cs__block"><dt>Approach</dt><dd>The identity centres on Lora Serif paired with Karla Sans — balancing sophistication with readability. The colour palette draws from natural minerals: deep charcoal, oat beige, taupe grey, cream linen, and natural stone. Gold foil accents on dark stock elevate the physical presence.</dd></div>
-        <div class="cs__block"><dt>Deliverables</dt><dd>Brand book with typography and colour system, primary product label design (Radiance Serum), and a full guidelines document covering application across print, digital, and packaging touchpoints.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · InDesign · Photoshop</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="brief">Brief</dt><dd data-i18n="proj2_brief">AURA° is a botanical skincare line seeking an identity that feels refined yet grounded — natural without cliché, premium without coldness. The brand targets women who value ingredient transparency and quiet luxury.</dd></div>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj2_approach">The identity centres on Lora Serif paired with Karla Sans — balancing sophistication with readability. The colour palette draws from natural minerals: deep charcoal, oat beige, taupe grey, cream linen, and natural stone. Gold foil accents on dark stock elevate the physical presence.</dd></div>
+        <div class="cs__block"><dt data-i18n="deliverables">Deliverables</dt><dd data-i18n="proj2_deliv">Brand book with typography and colour system, primary product label design (Radiance Serum), and a full guidelines document covering application across print, digital, and packaging touchpoints.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Adobe Illustrator · InDesign · Photoshop</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -276,15 +385,20 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">03</span>
         <span class="proj__cat">Social &amp; Content</span>
         <h3 class="proj__title">Velvet Oak<br>Social Media System</h3>
-        <p class="proj__desc">Instagram grid and content strategy for a sustainable fashion brand — cohesive tile system, lifestyle photography direction, and story templates.</p>
+        <p class="proj__desc" data-i18n="proj3_desc">Instagram grid and content strategy for a sustainable fashion brand — cohesive tile system, lifestyle photography direction, and story templates.</p>
         <div class="proj__meta"><span>2025</span><span>Social · Art Direction</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Brief</dt><dd>Velvet Oak is an ethical fashion brand with an existing audience but inconsistent visual language on Instagram. They needed a grid system that tells their sustainability story while feeling aspirational and shoppable.</dd></div>
-        <div class="cs__block"><dt>Approach</dt><dd>A 9-tile repeating grid structure mixing lifestyle imagery, typography cards, and product close-ups. Warm earth tones — terracotta, sage, sand — unify the feed. Each tile type has defined proportions and text placement rules, making the system scalable for the team to maintain independently.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Figma · Adobe Photoshop · Lightroom</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="brief">Brief</dt><dd data-i18n="proj3_brief">Velvet Oak is an ethical fashion brand with an existing audience but inconsistent visual language on Instagram. They needed a grid system that tells their sustainability story while feeling aspirational and shoppable.</dd></div>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj3_approach">A 9-tile repeating grid structure mixing lifestyle imagery, typography cards, and product close-ups. Warm earth tones — terracotta, sage, sand — unify the feed. Each tile type has defined proportions and text placement rules, making the system scalable for the team to maintain independently.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Figma · Adobe Photoshop · Lightroom</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1515347619362-e6fd4e11e031?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -294,15 +408,20 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">04</span>
         <span class="proj__cat">Editorial</span>
         <h3 class="proj__title">KUNST Amsterdam<br>Exhibition Catalogue</h3>
-        <p class="proj__desc">Art direction and layout for a gallery exhibition catalogue — minimalist editorial design with strong typographic hierarchy and considered image pacing.</p>
+        <p class="proj__desc" data-i18n="proj4_desc">Art direction and layout for a gallery exhibition catalogue — minimalist editorial design with strong typographic hierarchy and considered image pacing.</p>
         <div class="proj__meta"><span>2024</span><span>Print · Editorial</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Brief</dt><dd>KUNST Amsterdam required a print catalogue for their "Stillness in Form" and "Exploring the Minimal" exhibitions — a publication that functions both as exhibition guide and as a standalone collectible art object.</dd></div>
-        <div class="cs__block"><dt>Approach</dt><dd>Clean, gallery-white spreads with generous margins. Typography leads — bold headlines create rhythm between full-bleed imagery and text-heavy pages. The grid alternates between symmetrical and asymmetrical layouts to maintain visual tension across 48 pages.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Adobe InDesign · Photoshop · Illustrator</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="brief">Brief</dt><dd data-i18n="proj4_brief">KUNST Amsterdam required a print catalogue for their "Stillness in Form" and "Exploring the Minimal" exhibitions — a publication that functions both as exhibition guide and as a standalone collectible art object.</dd></div>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj4_approach">Clean, gallery-white spreads with generous margins. Typography leads — bold headlines create rhythm between full-bleed imagery and text-heavy pages. The grid alternates between symmetrical and asymmetrical layouts to maintain visual tension across 48 pages.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Adobe InDesign · Photoshop · Illustrator</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -312,14 +431,19 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">05</span>
         <span class="proj__cat">Product &amp; Packaging</span>
         <h3 class="proj__title">PUUR<br>Sustainable Drinkfles</h3>
-        <p class="proj__desc">Product label and visual identity for an eco-conscious reusable bottle — clean, material-honest design that communicates sustainability without greenwashing.</p>
+        <p class="proj__desc" data-i18n="proj5_desc">Product label and visual identity for an eco-conscious reusable bottle — clean, material-honest design that communicates sustainability without greenwashing.</p>
         <div class="proj__meta"><span>2025</span><span>Packaging · Identity</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Approach</dt><dd>The word "PUUR" is debossed into stone-textured paper — the material speaks the brand's values. A minimal leaf icon and the tagline "Duurzame Drinkfles" provide all the information needed. Frosted glass, bamboo cap, and woven cord loop complete the tactile experience. The accompanying poster uses the same recycling iconography in a restrained, informational way.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · Photoshop</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj5_approach">The word "PUUR" is debossed into stone-textured paper — the material speaks the brand's values. A minimal leaf icon and the tagline "Duurzame Drinkfles" provide all the information needed. Frosted glass, bamboo cap, and woven cord loop complete the tactile experience. The accompanying poster uses the same recycling iconography in a restrained, informational way.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Adobe Illustrator · Photoshop</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1605369572399-05d8d64a0f6e?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -329,14 +453,19 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">06</span>
         <span class="proj__cat">Branding</span>
         <h3 class="proj__title">Lumina Coffee Roasters<br>Brand Identity</h3>
-        <p class="proj__desc">Logo, stationery, and collateral for an artisan coffee roaster — geometric sun-and-mountain mark applied across cup sleeve, business cards, and tote bag.</p>
+        <p class="proj__desc" data-i18n="proj6_desc">Logo, stationery, and collateral for an artisan coffee roaster — geometric sun-and-mountain mark applied across cup sleeve, business cards, and tote bag.</p>
         <div class="proj__meta"><span>2024</span><span>Identity · Print</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Approach</dt><dd>The symbol combines a rising sun with mountain silhouettes — referencing both the origin of coffee and the brand's name ("light"). Warm terracotta and golden ochre sit on kraft paper backgrounds, creating an honest, handcrafted feel. The system works at every scale, from a tiny business card icon to a large tote bag print.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Adobe Illustrator · InDesign</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj6_approach">The symbol combines a rising sun with mountain silhouettes — referencing both the origin of coffee and the brand's name ("light"). Warm terracotta and golden ochre sit on kraft paper backgrounds, creating an honest, handcrafted feel. The system works at every scale, from a tiny business card icon to a large tote bag print.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Adobe Illustrator · InDesign</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1559160581-44642f4c3af4?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -346,15 +475,20 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">07</span>
         <span class="proj__cat">UI/UX</span>
         <h3 class="proj__title">Flora Care<br>Plant App Design</h3>
-        <p class="proj__desc">Mobile UI/UX for a plant care companion app — collection tracking, AI-powered plant identification, watering reminders and care guides.</p>
+        <p class="proj__desc" data-i18n="proj7_desc">Mobile UI/UX for a plant care companion app — collection tracking, AI-powered plant identification, watering reminders and care guides.</p>
         <div class="proj__meta"><span>2025</span><span>UI/UX · Digital</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Brief</dt><dd>Flora Care helps plant owners track, identify and care for their collection. The app needed to feel warm and organic — not clinical — while delivering dense functionality across scanning, scheduling, and community features.</dd></div>
-        <div class="cs__block"><dt>Approach</dt><dd>A deep green and cream palette mirrors the botanical subject matter. Card-based layouts with illustrated plant icons give the home screen a greenhouse-like quality. The scanning flow uses camera-native UI with overlaid identification results, keeping the interaction fast and intuitive.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Figma · Adobe Illustrator</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="brief">Brief</dt><dd data-i18n="proj7_brief">Flora Care helps plant owners track, identify and care for their collection. The app needed to feel warm and organic — not clinical — while delivering dense functionality across scanning, scheduling, and community features.</dd></div>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj7_approach">A deep green and cream palette mirrors the botanical subject matter. Card-based layouts with illustrated plant icons give the home screen a greenhouse-like quality. The scanning flow uses camera-native UI with overlaid identification results, keeping the interaction fast and intuitive.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Figma · Adobe Illustrator</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1512418490979-92798cec1380?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -364,14 +498,19 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">08</span>
         <span class="proj__cat">Web Design</span>
         <h3 class="proj__title">Monolith Architects<br>Website Design</h3>
-        <p class="proj__desc">Responsive website concept for a brutalist architecture firm — bold typography, full-bleed imagery, and a project grid that lets the buildings speak.</p>
+        <p class="proj__desc" data-i18n="proj8_desc">Responsive website concept for a brutalist architecture firm — bold typography, full-bleed imagery, and a project grid that lets the buildings speak.</p>
         <div class="proj__meta"><span>2024</span><span>Web · UI</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Approach</dt><dd>Black-and-white photography dominates — colour would compete with the raw concrete. Navigation uses a horizontal dash-separated system for editorial feel. The project grid below the hero uses equal-width cards with bold, uppercase titles — reflecting the architectural precision of the work itself.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Figma · Adobe Photoshop</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj8_approach">Black-and-white photography dominates — colour would compete with the raw concrete. Navigation uses a horizontal dash-separated system for editorial feel. The project grid below the hero uses equal-width cards with bold, uppercase titles — reflecting the architectural precision of the work itself.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Figma · Adobe Photoshop</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -381,14 +520,19 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
         <span class="proj__num">09</span>
         <span class="proj__cat">Editorial</span>
         <h3 class="proj__title">TYPE Magazine<br>Negative Space Feature</h3>
-        <p class="proj__desc">Magazine spread design exploring typography fundamentals and negative space — line-drawn botanical illustrations paired with expressive display type.</p>
+        <p class="proj__desc" data-i18n="proj9_desc">Magazine spread design exploring typography fundamentals and negative space — line-drawn botanical illustrations paired with expressive display type.</p>
         <div class="proj__meta"><span>2025</span><span>Editorial · Typography</span></div>
-        <div class="proj__expand">View details</div>
+        <div class="proj__expand" data-i18n="view_details">View details</div>
       </div>
       <div class="cs"><div class="cs__inner">
-        <h4>Case Study</h4>
-        <div class="cs__block"><dt>Approach</dt><dd>The spread is structured as a visual essay — a large botanical illustration anchors the left page while "The Power of Negative Space" in display serif cascades across the right. The pull quote "Embrace the emptiness. It is there that design really breathes." sets the philosophical tone. Column widths vary intentionally to demonstrate the very concept the article discusses.</dd></div>
-        <div class="cs__block"><dt>Tools</dt><dd>Adobe InDesign · Illustrator</dd></div>
+          <div class="cs__text-grid">
+        <h4 data-i18n="case_study">Case Study</h4>
+        <div class="cs__block"><dt data-i18n="approach">Approach</dt><dd data-i18n="proj9_approach">The spread is structured as a visual essay — a large botanical illustration anchors the left page while "The Power of Negative Space" in display serif cascades across the right. The pull quote "Embrace the emptiness. It is there that design really breathes." sets the philosophical tone. Column widths vary intentionally to demonstrate the very concept the article discusses.</dd></div>
+        <div class="cs__block"><dt data-i18n="tools">Tools</dt><dd>Adobe InDesign · Illustrator</dd></div>
+          <div class="cs__gallery">
+            <img class="cs__img" src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&q=80&w=1600" alt="Case Study Image" loading="lazy">
+          </div>
+        </div>
       </div></div>
     </article>
 
@@ -398,23 +542,19 @@ body.hov .cd{width:10px;height:10px}body.hov .cr{width:52px;height:52px;opacity:
 <!-- ═══ CONTACT ═══ -->
 <footer class="contact" id="contact">
   <div class="contact__left rv">
-    <span class="label label--r">Get in touch</span>
+    <span class="label label--r" data-i18n="contact_label">Get in touch</span>
     <div class="contact__h">
-      <h2>Let's<br><span>talk.</span></h2>
-      <a class="wa" href="https://wa.me/32494718997?text=Merhaba%20G%C3%BClpembe!%20Portfolyon%C3%BC%20g%C3%B6rd%C3%BCm%2C%20seninle%20%C3%A7al%C4%B1%C5%9Fmak%20isterim." target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path class="wb" fill-rule="evenodd" clip-rule="evenodd" d="M16 2.667C8.636 2.667 2.667 8.636 2.667 16c0 2.328.628 4.512 1.724 6.39L2.667 29.334l7.155-1.692A13.267 13.267 0 0 0 16 29.334c7.364 0 13.333-5.969 13.333-13.333C29.333 8.636 23.364 2.667 16 2.667Z"/><path class="wp" fill-rule="evenodd" clip-rule="evenodd" d="M11.95 9.6c-.32-.72-.656-.735-.96-.748-.249-.011-.533-.011-.817-.011-.284 0-.747.107-1.138.534C8.645 9.8 7.467 10.92 7.467 13.2c0 2.28 1.626 4.48 1.853 4.793.226.312 3.147 5.014 7.734 6.827 3.827 1.507 4.587 1.21 5.414 1.133.826-.077 2.666-1.09 3.04-2.147.373-1.056.373-1.963.262-2.147-.11-.183-.4-.293-.83-.512-.43-.22-2.547-1.258-2.94-1.4-.393-.143-.68-.22-.96.22-.28.44-1.084 1.4-1.328 1.687-.244.286-.488.32-.907.11-.42-.22-1.77-.654-3.372-2.086-1.246-1.113-2.087-2.487-2.33-2.906-.244-.42-.026-.648.183-.857.187-.188.42-.488.63-.733.21-.244.28-.42.42-.698.14-.28.07-.527-.035-.733-.107-.206-.948-2.304-1.337-3.15Z"/></svg>
-      </a>
+      <h2><span data-i18n="contact_h2_1">Let's<br></span><span data-i18n="contact_h2_2">talk.</span></h2>
     </div>
     <div class="contact__links">
       <a href="mailto:gulpembecolak@gmail.com">gulpembecolak@gmail.com</a>
-      <a href="tel:+32494718997" class="ph">+32 494 71 89 97</a>
     </div>
   </div>
   <div class="contact__r rv">
     <div class="contact__soc">
-      <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.linkedin.com/in/gulpembe-colak" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://gulpembecolak1.wixsite.com/gulpish" target="_blank" rel="noopener">Portfolio</a>
+      <a href="mailto:gulpembecolak@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/gülpembe-çolak-736a1a278/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/gulpembecc/" target="_blank" rel="noopener">Instagram</a>
     </div>
     <span class="contact__copy">© 2025 Gülpembe Çolak — Living Lines</span>
   </div>
@@ -443,16 +583,22 @@ const seq=[
   {id:'leaf_right',delay:1200,dur:2400},
   {id:'bud',       delay:800, dur:3600},
 ];
-window.addEventListener('load',()=>{
+// Initialize paths to be hidden immediately
+seq.forEach(({id})=>{
+  const p=document.getElementById(id);
+  if(!p)return;
+  const len=p.getTotalLength?p.getTotalLength():1500;
+  p.style.transition='none';
+  p.style.fillOpacity='0';
+  p.style.strokeOpacity='1';
+  p.style.strokeDasharray=len;
+  p.style.strokeDashoffset=len;
+});
+
+window.startAnimations = function() {
   seq.forEach(({id,delay,dur})=>{
     const p=document.getElementById(id);
     if(!p)return;
-    const len=p.getTotalLength?p.getTotalLength():1500;
-    p.style.transition='none';
-    p.style.fillOpacity='0';
-    p.style.strokeOpacity='1';
-    p.style.strokeDasharray=len;
-    p.style.strokeDashoffset=len;
     setTimeout(()=>{
       p.style.transition=`stroke-dashoffset ${dur}ms cubic-bezier(0.25,0.1,0.25,1)`;
       p.style.strokeDashoffset='0';
@@ -464,7 +610,17 @@ window.addEventListener('load',()=>{
     },delay+dur+100);
   });
   setTimeout(()=>document.getElementById('ht').classList.add('in'),4200);
-});
+};
+
+
+/* Progress Line Logic */
+const progressLine = document.getElementById('progress-line');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressLine.style.width = scrollPercent + '%';
+}, {passive: true});
 
 /* Scroll reveal */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06});
@@ -482,6 +638,54 @@ window.toggleCs=function(proj){
   document.querySelectorAll('.cs.open').forEach(c=>c.classList.remove('open'));
   if(!isOpen)cs.classList.add('open');
 };
+
+/* Language / i18n logic */
+const langModal = document.getElementById('lang-modal');
+const updateDOM = (lang) => {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key]) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.nav__lang button').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById('btn-'+lang);
+  if (activeBtn) activeBtn.classList.add('active');
+  document.documentElement.lang = lang;
+  document.title = lang === 'tr' ? 'Gülpembe Çolak — Grafik Tasarımcı' : 
+                   lang === 'nl' ? 'Gülpembe Çolak — Grafisch Ontwerper' : 
+                   'Gülpembe Çolak — Graphic Designer';
+
+};
+
+window.setLang = function(lang) {
+  localStorage.setItem('gp_lang', lang);
+  updateDOM(lang);
+};
+
+window.initLang = function(lang) {
+  setLang(lang);
+  langModal.classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+const savedLang = localStorage.getItem('gp_lang');
+if (savedLang) {
+  setLang(savedLang);
+} else {
+  langModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateDOM('en');
+}
+
+setTimeout(() => {
+  const p = document.getElementById('preloader');
+  if(p) p.classList.add('hide');
+  setTimeout(() => {
+    if(window.startAnimations) window.startAnimations();
+  }, 400);
+}, 1500);
+
 })();
 </script>
 </body>
